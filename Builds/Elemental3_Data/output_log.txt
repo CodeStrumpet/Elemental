@@ -1,0 +1,96 @@
+Direct3D:
+    Version:  Direct3D 9.0c [aticfx32.dll 8.17.10.1063]
+    Renderer: AMD Radeon HD 6490M
+    Vendor:   ATI
+    VRAM:     247 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 DF24=1 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=1
+desktop: 1280x720 60Hz; virtual: 1280x720 at 0,0
+<I> Initializing (RawInput).
+<RI> Input initialized.
+Non platform assembly: data-07E70048 (this message is harmless)
+Non platform assembly: data-07ED75E8 (this message is harmless)
+Non platform assembly: data-025F6FC8 (this message is harmless)
+Non platform assembly: data-025F7FC0 (this message is harmless)
+Non platform assembly: data-02614550 (this message is harmless)
+Actor::updateMassFromShapes: Compute mesh inertia tensor failed for one of the actor's mesh shapes! Please change mesh geometry or supply a tensor manually!
+UnityEngine.GameObject:AddComponent(String)
+UpdateMeshCollider:Start()
+
+[..\..\Physics\src\NpActor.cpp line 134] 
+(Filename: ..\..\Physics\src\NpActor.cpp Line: 134)
+
+Actor::updateMassFromShapes: Compute mesh inertia tensor failed for one of the actor's mesh shapes! Please change mesh geometry or supply a tensor manually!
+UnityEngine.GameObject:AddComponent(String)
+UpdateMeshCollider:Start()
+
+[..\..\Physics\src\NpActor.cpp line 134] 
+(Filename: ..\..\Physics\src\NpActor.cpp Line: 134)
+
+Initing OpenNI
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+OpenNIContext:Awake()
+UnityEngine.GameObject:Internal_AddComponentWithType(Type)
+UnityEngine.GameObject:AddComponent(Type)
+UnityEngine.GameObject:AddComponent()
+OpenNIContext:get_Instance()
+OpenNIDepthmapToMesh:Start()
+ 
+(Filename: C:/BuildAgent/work/842f9557127e852/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 34)
+
+Platform assembly: C:\Users\Public\Documents\Unity Projects\Elemental\Builds\Elemental3_Data\Managed\System.Xml.dll (this message is harmless)
+Platform assembly: C:\Users\Public\Documents\Unity Projects\Elemental\Builds\Elemental3_Data\Managed\System.dll (this message is harmless)
+Actor::updateMassFromShapes: Compute mesh inertia tensor failed for one of the actor's mesh shapes! Please change mesh geometry or supply a tensor manually!
+UnityEngine.Transform:INTERNAL_set_localScale(Vector3&)
+UnityEngine.Transform:set_localScale(Vector3)
+HutongGames.PlayMaker.Actions.LoadSettings:ReadScale(XmlTextReader, GameObject)
+HutongGames.PlayMaker.Actions.LoadSettings:ReadTransform(XmlTextReader, GameObject)
+HutongGames.PlayMaker.Actions.LoadSettings:OnEnter()
+HutongGames.PlayMaker.FsmState:OnEnter()
+HutongGames.PlayMaker.Fsm:EnterState(FsmState)
+HutongGames.PlayMaker.Fsm:SwitchState(FsmState)
+HutongGames.PlayMaker.Fsm:DoTransition(FsmTransition, Boolean)
+HutongGames.PlayMaker.Fsm:ChangeState(FsmEvent)
+HutongGames.PlayMaker.Fsm:Event(FsmEvent)
+HutongGames.PlayMaker.FsmState:CheckFinished()
+HutongGames.PlayMaker.FsmState:OnEnter()
+HutongGames.PlayMaker.Fsm:EnterState(FsmState)
+HutongGames.PlayMaker.Fsm:SwitchState(FsmState)
+HutongGames.PlayMaker.Fsm:EnterStartState()
+HutongGames.PlayMaker.Fsm:Update()
+PlayMakerFSM:Update()
+
+[..\..\Physics\src\NpActor.cpp line 134] 
+(Filename: ..\..\Physics\src\NpActor.cpp Line: 134)
+
+Actor::updateMassFromShapes: Compute mesh inertia tensor failed for one of the actor's mesh shapes! Please change mesh geometry or supply a tensor manually!
+UnityEngine.Transform:INTERNAL_set_localScale(Vector3&)
+UnityEngine.Transform:set_localScale(Vector3)
+HutongGames.PlayMaker.Actions.LoadSettings:ReadScale(XmlTextReader, GameObject)
+HutongGames.PlayMaker.Actions.LoadSettings:ReadTransform(XmlTextReader, GameObject)
+HutongGames.PlayMaker.Actions.LoadSettings:OnEnter()
+HutongGames.PlayMaker.FsmState:OnEnter()
+HutongGames.PlayMaker.Fsm:EnterState(FsmState)
+HutongGames.PlayMaker.Fsm:SwitchState(FsmState)
+HutongGames.PlayMaker.Fsm:DoTransition(FsmTransition, Boolean)
+HutongGames.PlayMaker.Fsm:ChangeState(FsmEvent)
+HutongGames.PlayMaker.Fsm:Event(FsmEvent)
+HutongGames.PlayMaker.FsmState:CheckFinished()
+HutongGames.PlayMaker.FsmState:OnEnter()
+HutongGames.PlayMaker.Fsm:EnterState(FsmState)
+HutongGames.PlayMaker.Fsm:SwitchState(FsmState)
+HutongGames.PlayMaker.Fsm:EnterStartState()
+HutongGames.PlayMaker.Fsm:Update()
+PlayMakerFSM:Update()
+
+[..\..\Physics\src\NpActor.cpp line 134] 
+(Filename: ..\..\Physics\src\NpActor.cpp Line: 134)
+
+Quitting
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object)
+ExitOnEscape:OnGUI()
+ 
+(Filename: C:/BuildAgent/work/842f9557127e852/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 34)
+
