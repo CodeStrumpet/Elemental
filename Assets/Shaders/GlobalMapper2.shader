@@ -3,9 +3,8 @@ Properties {
     _RimColor ("Rim Color", Color) = (0.26, 0.19, 0.16, 0.0)
     _RimPower ("Rim Power", Range(0.5, 8.0)) = 3.0
     _PeakTex ("PeakTexture", 2D) = "white" {}
-    _PeakColor ("PeakColor", Color) = (0.8,0.9,0.9,1)   
     _PeakLevel ("PeakLevel", Float) = 300
-    _Level5Color ("Level5Color", Color) = (0.88,0.53,0,1)
+    _Level5Tex ("Level5Texture", 2D) = "white" {}
     _Level5 ("Level5", Float) = 400
     _Level4Color ("Level4Color", Color) = (0.80,0.53,0,1)
     _Level4 ("Level4", Float) = 300
@@ -28,6 +27,7 @@ SubShader {
         float3 customColor;
         float3 worldPos;
 	float2 uv_PeakTex;
+	float2 uv_Level5Tex;
 	float3 viewDir;
     };
     void vert (inout appdata_full v, out Input o) {
@@ -39,7 +39,7 @@ SubShader {
     float _PeakLevel;
     float4 _PeakColor;
     float _Level5;
-    float4 _Level5Color;
+    sampler2D _Level5Tex;
     float _Level4;
     float4 _Level4Color;
     float _Level3;
@@ -52,13 +52,19 @@ SubShader {
     float _WaterLevel;
     float4 _WaterColor;
     void surf (Input IN, inout SurfaceOutput o) {
-        if (IN.worldPos.y >= _PeakLevel)
-            //o.Albedo = _PeakColor;
-	    o.Albedo = tex2D(_PeakTex, IN.uv_PeakTex).rgb;
-        if (IN.worldPos.y <= _PeakLevel)
-            o.Albedo = lerp(_Level5Color, _PeakColor, (IN.worldPos.y - _Level5)/(_PeakLevel - _Level5));
-        if (IN.worldPos.y <= _Level5)
-            o.Albedo = lerp(_Level4Color, _Level5Color, (IN.worldPos.y - _Level4)/(_Level5 - _Level4));
+        if (IN.worldPos.y >= _PeakLevel) {
+	    float4 peakColor = tex2D(_PeakTex, IN.uv_PeakTex);
+	    o.Albedo = peakColor;
+	}
+        if (IN.worldPos.y <= _PeakLevel) {
+	    float4 peakColor = tex2D(_PeakTex, IN.uv_PeakTex);
+	    float4 level5Color = tex2D(_Level5Tex, IN.uv_Level5Tex);
+            o.Albedo = lerp(level5Color, peakColor, (IN.worldPos.y - _Level5)/(_PeakLevel - _Level5));
+	}	       
+        if (IN.worldPos.y <= _Level5) {
+	    float4 level5Color = tex2D(_Level5Tex, IN.uv_Level5Tex);
+            o.Albedo = lerp(_Level4Color, level5Color, (IN.worldPos.y - _Level4)/(_Level5 - _Level4));
+	}
         if (IN.worldPos.y <= _Level4)
             o.Albedo = lerp(_Level3Color, _Level4Color, (IN.worldPos.y - _Level3)/(_Level4 - _Level3));
         if (IN.worldPos.y <= _Level3)
