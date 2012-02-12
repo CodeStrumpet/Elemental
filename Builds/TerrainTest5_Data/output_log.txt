@@ -7,13 +7,13 @@ Direct3D:
 desktop: 1440x900 60Hz; virtual: 1440x900 at 0,0
 <I> Initializing (RawInput).
 <RI> Input initialized.
-Non platform assembly: data-095B0048 (this message is harmless)
-Non platform assembly: data-024E6938 (this message is harmless)
-Non platform assembly: data-09616050 (this message is harmless)
-Non platform assembly: data-024E9FA8 (this message is harmless)
-Non platform assembly: data-0968A0C0 (this message is harmless)
-Non platform assembly: data-024EBFC8 (this message is harmless)
-Non platform assembly: data-0250B5B8 (this message is harmless)
+Non platform assembly: data-08BC0048 (this message is harmless)
+Non platform assembly: data-02336FD8 (this message is harmless)
+Non platform assembly: data-08C278D0 (this message is harmless)
+Non platform assembly: data-02339FD0 (this message is harmless)
+Non platform assembly: data-0233B3E0 (this message is harmless)
+Non platform assembly: data-0233C7D0 (this message is harmless)
+Non platform assembly: data-0235BE40 (this message is harmless)
 Initing OpenNI
 UnityEngine.Debug:Internal_Log(Int32, String, Object)
 UnityEngine.Debug:Log(Object)
