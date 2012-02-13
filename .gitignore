@@ -1,1 +1,6 @@
 Temp
+Library/cache
+Library/previews
+Library/metadata
+Assembly-*
+*.sln
