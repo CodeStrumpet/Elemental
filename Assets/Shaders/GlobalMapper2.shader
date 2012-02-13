@@ -26,12 +26,12 @@ SubShader {
     struct Input {
         float3 customColor;
         float3 worldPos;
-	float2 uv_PeakTex;
-	float2 uv_Level5Tex;
-	float2 uv_Level4Tex;
-	float2 uv_Level3Tex;
-	float2 uv_Level2Tex;
-	float2 uv_Level1Tex;
+	//float2 uv_PeakTex;
+	//float2 uv_Level5Tex;
+	//float2 uv_Level4Tex;
+	//float2 uv_Level3Tex;
+	//float2 uv_Level2Tex;
+	//float2 uv_Level1Tex;
 	float2 uv_WaterTex;
 	float3 viewDir;
     };
@@ -57,38 +57,38 @@ SubShader {
     float _Slope;
     void surf (Input IN, inout SurfaceOutput o) {
         if (IN.worldPos.y >= _PeakLevel) {
-	    float4 peakColor = tex2D(_PeakTex, IN.uv_PeakTex);
+	    float4 peakColor = tex2D(_PeakTex, IN.uv_WaterTex);
 	    o.Albedo = peakColor;
 	}
         if (IN.worldPos.y <= _PeakLevel) {
-	    float4 peakColor = tex2D(_PeakTex, IN.uv_PeakTex);
-	    float4 level5Color = tex2D(_Level5Tex, IN.uv_Level5Tex);
+	    float4 peakColor = tex2D(_PeakTex, IN.uv_WaterTex);
+	    float4 level5Color = tex2D(_Level5Tex, IN.uv_WaterTex);
             o.Albedo = lerp(level5Color, peakColor, (IN.worldPos.y - _Level5)/(_PeakLevel - _Level5));
 	}	       
         if (IN.worldPos.y <= _Level5) {
-	    float4 level5Color = tex2D(_Level5Tex, IN.uv_Level5Tex);
-	    float4 level4Color = tex2D(_Level4Tex, IN.uv_Level4Tex);
+	    float4 level5Color = tex2D(_Level5Tex, IN.uv_WaterTex);
+	    float4 level4Color = tex2D(_Level4Tex, IN.uv_WaterTex);
             o.Albedo = lerp(level4Color, level5Color, (IN.worldPos.y - _Level4)/(_Level5 - _Level4));
 	}
         if (IN.worldPos.y <= _Level4) {
-	    float4 level4Color = tex2D(_Level4Tex, IN.uv_Level4Tex);
-	    float4 level3Color = tex2D(_Level3Tex, IN.uv_Level3Tex);
+	    float4 level4Color = tex2D(_Level4Tex, IN.uv_WaterTex);
+	    float4 level3Color = tex2D(_Level3Tex, IN.uv_WaterTex);
             o.Albedo = lerp(level3Color, level4Color, (IN.worldPos.y - _Level3)/(_Level4 - _Level3));
 	}
         if (IN.worldPos.y <= _Level3) {
-	    float4 level3Color = tex2D(_Level3Tex, IN.uv_Level3Tex);
-	    float4 level2Color = tex2D(_Level2Tex, IN.uv_Level2Tex);
+	    float4 level3Color = tex2D(_Level3Tex, IN.uv_WaterTex);
+	    float4 level2Color = tex2D(_Level2Tex, IN.uv_WaterTex);
             o.Albedo = lerp(level2Color, level3Color, (IN.worldPos.y - _Level2)/(_Level3 - _Level2));
 	}
         if (IN.worldPos.y <= _Level2) {
-	    float4 level2Color = tex2D(_Level2Tex, IN.uv_Level2Tex);
-	    float4 level1Color = tex2D(_Level1Tex, IN.uv_Level1Tex);
+	    float4 level2Color = tex2D(_Level2Tex, IN.uv_WaterTex);
+	    float4 level1Color = tex2D(_Level1Tex, IN.uv_WaterTex);
             o.Albedo = lerp(level1Color, level2Color, (IN.worldPos.y - _WaterLevel)/(_Level2 - _WaterLevel));
 	}
         if (IN.worldPos.y <= _WaterLevel) {
 	    float4 waterColor = tex2D(_WaterTex, IN.uv_WaterTex);
             o.Albedo = waterColor;
-	    // Transparent: 
+	    // transparent: 
 	    //clip (frac((IN.worldPos.y+IN.worldPos.z)) - 1.0);
 	}
         o.Albedo *= saturate(IN.customColor + _Slope);
