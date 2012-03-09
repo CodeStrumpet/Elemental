@@ -1,0 +1,45 @@
+fileFormatVersion: 1
+guid: 954182faab9a1402eb3a3cd8f484d6b5
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 1
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 0
+  materials:
+    generation: 1
+  animations:
+    generation: 0
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    fencePost:
+    - 100000
+    - 400000
+    - 3300000
+    - 2300000
+    - 6400000
+    fenceRope:
+    - 100002
+    - 400002
+    - 3300002
+    - 2300002
+    - 6400002
+    //RootNode:
+    - 100004
+    - 400004
+    - 11100000
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: fencePost
+    4300002: fenceRope

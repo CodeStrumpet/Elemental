@@ -1,0 +1,88 @@
+fileFormatVersion: 1
+guid: 8bd20885e52d847ba8ab1897bfabb1d4
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 0
+  materials:
+    generation: 1
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    HeronMesh:
+    - 100000
+    - 400000
+    MasterMover:
+    - 100002
+    - 400002
+    RootDummy:
+    - 100004
+    - 400004
+    Root:
+    - 100006
+    - 400006
+    - 13700000
+    Lhip:
+    - 100008
+    - 400008
+    knee2:
+    - 100010
+    - 400010
+    ankle2:
+    - 100012
+    - 400012
+    foot2:
+    - 100014
+    - 400014
+    Rhip:
+    - 100016
+    - 400016
+    knee3:
+    - 100018
+    - 400018
+    ankle3:
+    - 100020
+    - 400020
+    foot3:
+    - 100022
+    - 400022
+    Neck1:
+    - 100024
+    - 400024
+    Neck2:
+    - 100026
+    - 400026
+    Neck3:
+    - 100028
+    - 400028
+    Neck4:
+    - 100030
+    - 400030
+    Head:
+    - 100032
+    - 400032
+    Beak:
+    - 100034
+    - 400034
+    //RootNode:
+    - 100036
+    - 400036
+    - 11100000
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: HeronMesh
+    7400000: Take 001 //// Heron@Run

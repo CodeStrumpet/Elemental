@@ -1,0 +1,82 @@
+fileFormatVersion: 1
+guid: 41d1431faf80546a5be7ffe38aba1a1e
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 0
+  materials:
+    generation: 2
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+    clips:
+      fly:
+        firstFrame: 1
+        lastFrame: 24
+        loop: 0
+        wrapMode: 0
+      glide:
+        firstFrame: 21
+        lastFrame: 23
+        loop: 1
+        wrapMode: 0
+  nodeInfo:
+    //RootNode:
+    - 100000
+    - 400000
+    - 11100000
+    joint8:
+    - 100002
+    - 400002
+    - 13700000
+    joint9:
+    - 100004
+    - 400004
+    joint10:
+    - 100006
+    - 400006
+    Root1:
+    - 100008
+    - 400008
+    joint2:
+    - 100010
+    - 400010
+    joint3:
+    - 100012
+    - 400012
+    joint4:
+    - 100014
+    - 400014
+    Root2:
+    - 100016
+    - 400016
+    joint5:
+    - 100018
+    - 400018
+    joint6:
+    - 100020
+    - 400020
+    joint7:
+    - 100022
+    - 400022
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: Seagull
+    7400000: Take 001 //// SeagullFBX
+    7400002: fly //// SeagullFBX
+    7400004: glide //// SeagullFBX
+    7400006: fly //// Seagull
+    7400008: glide //// Seagull

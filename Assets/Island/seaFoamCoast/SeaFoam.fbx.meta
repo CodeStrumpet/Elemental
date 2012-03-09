@@ -1,0 +1,97 @@
+fileFormatVersion: 1
+guid: 2f13b853068f74a5fa4a017078563fcb
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 0
+  materials:
+    generation: 1
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    group2:
+    - 100000
+    - 400000
+    curve3:
+    - 100002
+    - 400002
+    group1:
+    - 100004
+    - 400004
+    pPlane1:
+    - 100006
+    - 400006
+    - 3300000
+    - 2300000
+    curve2:
+    - 100008
+    - 400008
+    offsetNurbsCurve1:
+    - 100010
+    - 400010
+    curve4:
+    - 100012
+    - 400012
+    mainIslandFoam:
+    - 100014
+    - 400014
+    - 3300002
+    - 2300002
+    curve5:
+    - 100016
+    - 400016
+    offsetNurbsCurve2:
+    - 100018
+    - 400018
+    curve6:
+    - 100020
+    - 400020
+    noMansLandFoam:
+    - 100022
+    - 400022
+    - 3300004
+    - 2300004
+    curve7:
+    - 100024
+    - 400024
+    offsetNurbsCurve3:
+    - 100026
+    - 400026
+    curve8:
+    - 100028
+    - 400028
+    secondaryIslandFoam:
+    - 100030
+    - 400030
+    - 3300006
+    - 2300006
+    polySurface5:
+    - 100032
+    - 400032
+    - 3300008
+    - 2300008
+    //RootNode:
+    - 100034
+    - 400034
+    - 11100000
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: pPlane1
+    4300002: mainIslandFoam
+    4300004: noMansLandFoam
+    4300006: secondaryIslandFoam
+    4300008: polySurface5
