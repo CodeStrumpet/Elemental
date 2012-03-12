@@ -5,17 +5,20 @@ public class Boids : MonoBehaviour {
 	
 	public Transform boid;
 	public int number_of_boids = 10;  	
-	public float cohesionFactor = 1.0f;
+	public float cohesionFactor = 2.0f;
 	public float repulsionFactor = 0.1f;
+	public float velocitySimilarityFactor = 0.01f;
 	public float scatterFactor = 0.0f;
-	public float velocitySimilarityFactor = 1.0f;
 	public Vector3 flockInitialVelocity = Vector3.forward;
 	public float speed = 0.05f;
 	public bool	maintainConstantHeight = false;
+	public bool flockHasLeader = false;
+	public bool highlightLeader = true;
 	
 	private Transform[] boidsarray;
 	private Vector3[] boidsvelocity;
 	private Vector3 center;
+	private Vector3 flockLeaderVelocity;
 	
 	// Use this for initialization
 	void Start () {
@@ -32,30 +35,52 @@ public class Boids : MonoBehaviour {
 			boidsarray[i] = b; 
 			boidsvelocity[i] = flockInitialVelocity;
 		}	
+		
+		if (highlightLeader) {
+			GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			sphere.transform.parent = boidsarray[0];
+			sphere.transform.localScale = Vector3.one * 10.0f;
+			sphere.renderer.material.color = Color.red;
+		}
+		
+		if (flockHasLeader) {
+			flockLeaderVelocity = flockInitialVelocity;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		center = Vector3.zero;
-		for (int i=0; i<number_of_boids; i++)
-		{
+		int startingIndex = flockHasLeader ? 1 : 0;
+		if (flockHasLeader) {
+			//update flockLeaderVelocity here
+			boidsarray[0].position += flockLeaderVelocity * Time.deltaTime * speed;
+		}
 		
+		for (int i = startingIndex; i < number_of_boids; i++)
+		{		
 			center += boidsarray[i].position / number_of_boids;
 
 			// print(boidsvelocity[i]);
-			boidsvelocity[i] += getCenterAttractor(i); // boids will all fly towards center
+			if (flockHasLeader) {
+				boidsvelocity[i] = getLeaderAttractor(i);
+			} else {
+				boidsvelocity[i] += getCenterAttractor(i); // boids will all fly towards center
+			}
 			boidsvelocity[i] += getRepulsion(i); // repulse from nearby boids
-			boidsvelocity[i] += addScatter(i); // scatter
 			boidsvelocity[i] += matchVelocity(i); // match velocity
+			boidsvelocity[i] += addScatter(i); // scatter
+
 			if (maintainConstantHeight) {
 				boidsvelocity[i].y = 0.0f;
 			}
+
 			boidsvelocity[i].Normalize();
 
-			boidsarray[i].position += boidsvelocity[i] * speed;
+			boidsarray[i].position += boidsvelocity[i] * Time.deltaTime * speed;
 		}
 	}
-	
+		
 	Vector3 matchVelocity(int boidIndex)
 	{
 		Vector3 perceivedVelocity = Vector3.zero;
@@ -98,7 +123,7 @@ public class Boids : MonoBehaviour {
 			}
 		}
 		
-		return repulsion*Time.deltaTime*repulsionFactor;
+		return repulsion * Time.deltaTime * repulsionFactor;
 	}
 
 	Vector3 getCenterAttractor(int boidIndex)
@@ -107,5 +132,9 @@ public class Boids : MonoBehaviour {
 		// for boid at boidIndex in boidsarray, returns vector3 distance to center
 			
 		return (center - boidsarray[boidIndex].position) * cohesionFactor * Time.deltaTime;
+	}
+	
+	Vector3 getLeaderAttractor(int boidIndex) {
+		return (boidsarray[0].position - boidsarray[boidIndex].position) * cohesionFactor * Time.deltaTime;	
 	}
 }
