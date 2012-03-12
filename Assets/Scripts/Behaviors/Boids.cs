@@ -76,8 +76,9 @@ public class Boids : MonoBehaviour {
 			}
 
 			boidsvelocity[i].Normalize();
-
-			boidsarray[i].position += boidsvelocity[i] * Time.deltaTime * speed;
+			boidsarray[i].rotation = Quaternion.LookRotation(boidsvelocity[i]);
+			
+			boidsarray[i].Translate(Vector3.forward * speed * Time.deltaTime);
 		}
 	}
 		
