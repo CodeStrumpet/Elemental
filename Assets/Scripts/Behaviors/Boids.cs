@@ -14,10 +14,11 @@ public class Boids : MonoBehaviour {
 	public bool	maintainConstantHeight = false;
 	public bool flockHasLeader = false;
 	public bool highlightLeader = true;
+	public bool stationaryCenter = true;
+	private Vector3 center = Vector3.zero;
 	
 	private Transform[] boidsarray;
 	private Vector3[] boidsvelocity;
-	private Vector3 center;
 	private Vector3 flockLeaderVelocity;
 	
 	// Use this for initialization
@@ -25,8 +26,13 @@ public class Boids : MonoBehaviour {
 
 		boidsarray = new Transform[number_of_boids];
 		boidsvelocity = new Vector3[number_of_boids];
-		center = Vector3.zero;
-		
+		if (!stationaryCenter) {
+			center = Vector3.zero;	
+		}
+		else {
+			center = transform.position;
+		}
+				
 		for (int i=0; i < number_of_boids; i++)
 		{
 			Transform b = Instantiate(boid, new Vector3( Random.value, Random.value, Random.value), Quaternion.identity) as Transform; 
@@ -39,9 +45,12 @@ public class Boids : MonoBehaviour {
 		if (highlightLeader) {
 			GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			sphere.transform.parent = boidsarray[0];
-			sphere.transform.localScale = Vector3.one * 10.0f;
+			sphere.transform.localScale = Vector3.one * 5.0f;
+			sphere.transform.position = sphere.transform.parent.position;
 			sphere.renderer.material.color = Color.red;
 		}
+		
+		flockInitialVelocity = Vector3.Normalize(flockInitialVelocity);
 		
 		if (flockHasLeader) {
 			flockLeaderVelocity = flockInitialVelocity;
@@ -50,17 +59,25 @@ public class Boids : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		center = Vector3.zero;
-		int startingIndex = flockHasLeader ? 1 : 0;
+				
 		if (flockHasLeader) {
 			//update flockLeaderVelocity here
-			boidsarray[0].position += flockLeaderVelocity * Time.deltaTime * speed;
+			boidsarray[0].rotation = Quaternion.LookRotation(boidsvelocity[0]);
+			boidsarray[0].Translate(Vector3.forward * Time.deltaTime * speed);
 		}
 		
-		for (int i = startingIndex; i < number_of_boids; i++)
-		{		
-			center += boidsarray[i].position / number_of_boids;
+		int startingIndex = flockHasLeader ? 1 : 0;
+		if (!stationaryCenter) {
+			center = Vector3.zero;
+			for (int i = startingIndex; i < number_of_boids; i++)
+			{		
+				center += boidsarray[i].position / number_of_boids;
+			}	
+		}
+		
+		Debug.Log(center.x + "," + center.y + "," + center.z);
 
+		for (int i = startingIndex; i < number_of_boids; i++) {
 			// print(boidsvelocity[i]);
 			if (flockHasLeader) {
 				boidsvelocity[i] = getLeaderAttractor(i);
@@ -75,7 +92,7 @@ public class Boids : MonoBehaviour {
 				boidsvelocity[i].y = 0.0f;
 			}
 
-			boidsvelocity[i].Normalize();
+			//boidsvelocity[i].Normalize();
 			boidsarray[i].rotation = Quaternion.LookRotation(boidsvelocity[i]);
 			
 			boidsarray[i].Translate(Vector3.forward * speed * Time.deltaTime);
