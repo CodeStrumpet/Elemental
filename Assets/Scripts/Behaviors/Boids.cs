@@ -4,13 +4,14 @@ using System.Collections;
 public class Boids : MonoBehaviour {
 	
 	public Transform boid;
-	public int number_of_boids;  	
-	public float cohesionFactor = 0.1f;
+	public int number_of_boids = 10;  	
+	public float cohesionFactor = 1.0f;
 	public float repulsionFactor = 0.1f;
-	public float scatterFactor = 0.1f;
-	public float velocityFactor = 0.1f;
-	public Vector3 flockVelocity = Vector3.forward;
-	public float speed = 0.1f;
+	public float scatterFactor = 0.0f;
+	public float velocitySimilarityFactor = 1.0f;
+	public Vector3 flockInitialVelocity = Vector3.forward;
+	public float speed = 0.05f;
+	public bool	maintainConstantHeight = false;
 	
 	private Transform[] boidsarray;
 	private Vector3[] boidsvelocity;
@@ -26,10 +27,10 @@ public class Boids : MonoBehaviour {
 		for (int i=0; i < number_of_boids; i++)
 		{
 			Transform b = Instantiate(boid, new Vector3( Random.value, Random.value, Random.value), Quaternion.identity) as Transform; 
-			
 			b.parent = transform;
+			b.transform.localScale = Vector3.one;
 			boidsarray[i] = b; 
-			boidsvelocity[i] = flockVelocity;
+			boidsvelocity[i] = flockInitialVelocity;
 		}	
 	}
 	
@@ -46,6 +47,9 @@ public class Boids : MonoBehaviour {
 			boidsvelocity[i] += getRepulsion(i); // repulse from nearby boids
 			boidsvelocity[i] += addScatter(i); // scatter
 			boidsvelocity[i] += matchVelocity(i); // match velocity
+			if (maintainConstantHeight) {
+				boidsvelocity[i].y = 0.0f;
+			}
 			boidsvelocity[i].Normalize();
 
 			boidsarray[i].position += boidsvelocity[i] * speed;
@@ -65,14 +69,14 @@ public class Boids : MonoBehaviour {
 			}
 		}
 		
-		perceivedVelocity /= (number_of_boids-1);
-		return perceivedVelocity*Time.deltaTime*velocityFactor;
+		perceivedVelocity /= (number_of_boids - 1);
+		return perceivedVelocity * Time.deltaTime * velocitySimilarityFactor;
 	}
 	
 	Vector3 addScatter(int boidIndex)
 	{
 		// adds noise to position
-		return (new Vector3(Random.value - 0.5f,Random.value - 0.5f, Random.value - 0.5f))*scatterFactor;
+		return (new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f)) * scatterFactor;
 		
 	}
 	
