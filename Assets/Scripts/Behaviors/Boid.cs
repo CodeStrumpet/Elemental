@@ -13,6 +13,10 @@ public class Boid : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (!animation.isPlaying) {
+			if (Random.value > 0.9f) {
+				animation.Play();
+			}
+		}
 	}
 }
