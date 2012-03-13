@@ -1,0 +1,16 @@
+Boid flocks chase other flocks
+more diverse individual boid behavior
+diving flocks and splashing
+some land flocks on occassion need to go to water
+Fish
+Land boids (stay on terrain)
+flying boid landing
+perlin noise on leader
+different leader pathfinder algorithms
+flocks land on high ground
+flocks scatter when ground is disturbed
+bugs
+non-static y coords
+flying across the world
+grass
+clouds (investigate nuaj)
