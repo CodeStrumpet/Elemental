@@ -7,11 +7,11 @@ Direct3D:
 desktop: 1280x720 60Hz; virtual: 1280x720 at 0,0
 <I> Initializing (RawInput).
 <RI> Input initialized.
-Non platform assembly: data-07E70048 (this message is harmless)
-Non platform assembly: data-07ED75E8 (this message is harmless)
-Non platform assembly: data-025F6FC8 (this message is harmless)
-Non platform assembly: data-025F7FC0 (this message is harmless)
-Non platform assembly: data-02614550 (this message is harmless)
+Non platform assembly: data-08EF0048 (this message is harmless)
+Non platform assembly: data-08F57050 (this message is harmless)
+Non platform assembly: data-025E6FE8 (this message is harmless)
+Non platform assembly: data-025E7FE8 (this message is harmless)
+Non platform assembly: data-02603FE8 (this message is harmless)
 Actor::updateMassFromShapes: Compute mesh inertia tensor failed for one of the actor's mesh shapes! Please change mesh geometry or supply a tensor manually!
 UnityEngine.GameObject:AddComponent(String)
 UpdateMeshCollider:Start()
