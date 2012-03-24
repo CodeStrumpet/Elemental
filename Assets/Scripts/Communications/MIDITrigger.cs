@@ -3,11 +3,16 @@ using System.Collections;
 
 public class MIDITrigger : MonoBehaviour {
 	
-	private OSCSender oscSender;
 	public int midiNote = 88;
+	public float minSecsBeforeRetrigger = 0.0f;
+
+	private OSCSender oscSender;
+	private float secsUntilCanRetrigger = 0.0f;
 
 	// Use this for initialization
 	void Start () {
+		//have to get the OSCSender with a tag if we want this script to be
+		//part of a prefab
 		GameObject oscSenderObject = GameObject.FindWithTag("osc");
 		oscSender = oscSenderObject.GetComponent(typeof(OSCSender)) as OSCSender;
 	}
@@ -15,12 +20,19 @@ public class MIDITrigger : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//print("Updating");
+		if (secsUntilCanRetrigger > 0.0f) {
+			secsUntilCanRetrigger -= Time.deltaTime;
+			secsUntilCanRetrigger = Mathf.Max(0.0f, secsUntilCanRetrigger);
+		}
 	}
 	
 	void OnTriggerEnter() {
 		//print("Trigger Entered");
 		
-		oscSender.SendNoteOn(midiNote);
+		if(secsUntilCanRetrigger == 0.0f) {
+			oscSender.SendNoteOn(midiNote);
+			secsUntilCanRetrigger = minSecsBeforeRetrigger;
+		}
 	}
 	
 	void OnTriggerExit() {
