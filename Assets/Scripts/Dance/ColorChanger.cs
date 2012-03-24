@@ -14,12 +14,12 @@ public class ColorChanger : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision collision) {
-	Debug.Log("Collision detected");
+	//Debug.Log("Collision detected");
 	renderer.material.color = onColor;
     }
 
     void OnCollisionExit(Collision collision) {
-	Debug.Log("Collision exited");
+	//Debug.Log("Collision exited");
 	renderer.material.color = offColor;
     }
 

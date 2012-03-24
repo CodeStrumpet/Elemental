@@ -66,6 +66,6 @@ public class ArrayMaker : MonoBehaviour {
 			}
 		}
 
-		//SendMessage ("OnAllCollidersCreated", SendMessageOptions.DontRequireReceiver);
+		SendMessage ("OnAllCollidersCreated", SendMessageOptions.DontRequireReceiver);
 	}
 }
