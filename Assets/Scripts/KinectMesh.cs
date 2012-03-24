@@ -97,8 +97,8 @@ public class KinectMesh : MonoBehaviour
             mesh.RecalculateNormals();
         }
 
-	GetComponent<MeshCollider>().sharedMesh = null;
-	GetComponent<MeshCollider>().sharedMesh = mesh;
+		GetComponent<MeshCollider>().sharedMesh = null;
+		GetComponent<MeshCollider>().sharedMesh = mesh;
 
         Profiler.EndSample();
     }

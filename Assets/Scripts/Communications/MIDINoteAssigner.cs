@@ -19,9 +19,9 @@ public class MIDINoteAssigner : MonoBehaviour {
 		ArrayMaker arrayMaker = transform.GetComponent<ArrayMaker>();
 		//Transform[,,] colliders = arrayMaker.Colliders;
 		//int numColliders = colliders.GetLength(0) * colliders.GetLength(1) * colliders.GetLength(2);
-		for (int xNum=0; xNum < arrayMaker.numXCubes; xNum++) {
-			for (int yNum=0; yNum < arrayMaker.numYCubes; yNum++) {
-				for (int zNum = 0; zNum < arrayMaker.numZCubes; zNum++) {
+		for (int xNum=0; xNum < arrayMaker.numXElements; xNum++) {
+			for (int yNum=0; yNum < arrayMaker.numYElements; yNum++) {
+				for (int zNum = 0; zNum < arrayMaker.numZElements; zNum++) {
 					arrayMaker.Colliders[xNum, yNum, zNum].GetComponent<MIDITrigger>().midiNote = curMIDINote++;
 				}
 			}

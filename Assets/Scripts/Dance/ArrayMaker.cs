@@ -11,57 +11,61 @@ using System;
 
 public class ArrayMaker : MonoBehaviour {
 	public GameObject prefabObject;
-	public int numXCubes = 1;
-	public int numYCubes = 1;
-	public int numZCubes = 1;
-	public float padding = 0.0f;
+	public int numXElements = 1;
+	public int numYElements = 1;
+	public int numZElements = 1;
+	public Vector3 paddingPercent = Vector3.zero;
 	
-	//if true, then instantiated objects are reduced by the amount 
-	//of padding. This is useful for keeping centers of instantiated objects
-	//at the positions they would be with no padding.
-	public bool paddingFromScale = false;
-
 	public Transform[,,] Colliders {
 		get { return colliders; }
 	}
 	private Transform[,,] colliders;
 
-	private float cubeXLen = 0;
-	private float cubeYLen = 0;
-	private float cubeZLen = 0;
+	private float elementXLen = 0;
+	private float elementYLen = 0;
+	private float elementZLen = 0;
 
 	// Use this for initialization
 	public void Start () {
 		if (renderer != null) renderer.enabled = false;
 
-		if (numXCubes < 1 || numYCubes < 1 || numZCubes < 1) {
-			throw new System.Exception("CubeGroups must be a minimum of 1 across every dimension");
+		if (numXElements < 1 || numYElements < 1 || numZElements < 1) {
+			throw new System.Exception("Arrays must be a minimum of 1 across each x, y, and z dimensions");
 		}
-
-		cubeXLen = transform.localScale.x;
-		cubeYLen = transform.localScale.y;
-		cubeZLen = transform.localScale.z;
-		if (paddingFromScale) {
-			cubeXLen -= padding;
-			cubeYLen -= padding;
-			cubeZLen -= padding;
+		if (paddingPercent.x < 0.0f || paddingPercent.x > 100.0f) {
+			throw new System.Exception("paddingPercent must be between 0 and 100");
 		}
-			
-		prefabObject.transform.localScale = new Vector3(cubeXLen, cubeYLen, cubeZLen);		
+		if (paddingPercent.y < 0.0f || paddingPercent.y > 100.0f) {
+			throw new System.Exception("paddingPercent must be between 0 and 100");
+		}
+		if (paddingPercent.z < 0.0f || paddingPercent.z > 100.0f) {
+			throw new System.Exception("paddingPercent must be between 0 and 100");
+		}
 		
-		colliders = new Transform[numXCubes, numYCubes, numZCubes];
+		elementXLen = prefabObject.transform.localScale.x;
+		elementYLen = prefabObject.transform.localScale.y;
+		elementZLen = prefabObject.transform.localScale.z;
+			
+		//prefabObject.transform.localScale = new Vector3(elementXLen, elementYLen, elementZLen);		
+		
+		colliders = new Transform[numXElements, numYElements, numZElements];
 
-		for (int xBoxNum=0; xBoxNum < numXCubes; xBoxNum++) {
-			for (int yBoxNum=0; yBoxNum < numYCubes; yBoxNum++) {
-				for (int zBoxNum=0; zBoxNum < numZCubes; zBoxNum++) {
-					
-					GameObject newCube = (GameObject) Instantiate(prefabObject, 
-					                                    new Vector3(transform.position.x + (float) xBoxNum * (cubeXLen + padding), 
-					                                                transform.position.y + (float) yBoxNum * (cubeYLen + padding), 
-					                                                transform.position.z + (float) zBoxNum * (cubeZLen + padding)),
+		Vector3 localScale = prefabObject.transform.localScale;
+		localScale.x *= 1 - paddingPercent.x / 100.0f;
+		localScale.y *= 1 - paddingPercent.y / 100.0f;
+		localScale.z *= 1 - paddingPercent.z / 100.0f;
+		
+		for (int xBoxNum=0; xBoxNum < numXElements; xBoxNum++) {
+			for (int yBoxNum=0; yBoxNum < numYElements; yBoxNum++) {
+				for (int zBoxNum=0; zBoxNum < numZElements; zBoxNum++) {
+					GameObject newElement = (GameObject) Instantiate(prefabObject, 
+					                                    new Vector3(transform.position.x + (float) xBoxNum * elementXLen, 
+					                                                transform.position.y + (float) yBoxNum * elementYLen, 
+					                                                transform.position.z + (float) zBoxNum * elementZLen),
 					                                    Quaternion.identity);
-					newCube.transform.parent = transform;
-					colliders[xBoxNum, yBoxNum, zBoxNum] = newCube.transform;
+					newElement.transform.localScale = localScale;
+					newElement.transform.parent = transform;
+					colliders[xBoxNum, yBoxNum, zBoxNum] = newElement.transform;
 				}
 			}
 		}
