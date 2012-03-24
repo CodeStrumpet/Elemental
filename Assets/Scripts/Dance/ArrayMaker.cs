@@ -42,28 +42,27 @@ public class ArrayMaker : MonoBehaviour {
 			throw new System.Exception("paddingPercent must be between 0 and 100");
 		}
 		
-		elementXLen = prefabObject.transform.localScale.x;
-		elementYLen = prefabObject.transform.localScale.y;
-		elementZLen = prefabObject.transform.localScale.z;
-			
-		//prefabObject.transform.localScale = new Vector3(elementXLen, elementYLen, elementZLen);		
-		
+		//area given to each element of the array. Elements will not use all the area if
+		//padding is set
+		Vector3 elementLocalScale = new Vector3(prefabObject.transform.localScale.x * transform.localScale.x,
+		                          prefabObject.transform.localScale.y * transform.localScale.y,
+		                          prefabObject.transform.localScale.z * transform.localScale.z);
+		Vector3 elementLen = elementLocalScale;
+		elementLocalScale.x *= 1 - paddingPercent.x / 100.0f;
+		elementLocalScale.y *= 1 - paddingPercent.y / 100.0f;
+		elementLocalScale.z *= 1 - paddingPercent.z / 100.0f;
+				
 		colliders = new Transform[numXElements, numYElements, numZElements];
-
-		Vector3 localScale = prefabObject.transform.localScale;
-		localScale.x *= 1 - paddingPercent.x / 100.0f;
-		localScale.y *= 1 - paddingPercent.y / 100.0f;
-		localScale.z *= 1 - paddingPercent.z / 100.0f;
 		
 		for (int xBoxNum=0; xBoxNum < numXElements; xBoxNum++) {
 			for (int yBoxNum=0; yBoxNum < numYElements; yBoxNum++) {
 				for (int zBoxNum=0; zBoxNum < numZElements; zBoxNum++) {
 					GameObject newElement = (GameObject) Instantiate(prefabObject, 
-					                                    new Vector3(transform.position.x + (float) xBoxNum * elementXLen, 
-					                                                transform.position.y + (float) yBoxNum * elementYLen, 
-					                                                transform.position.z + (float) zBoxNum * elementZLen),
+					                                    new Vector3(transform.position.x + (float) xBoxNum * elementLen.x, 
+					                                                transform.position.y + (float) yBoxNum * elementLen.y, 
+					                                                transform.position.z + (float) zBoxNum * elementLen.z),
 					                                    Quaternion.identity);
-					newElement.transform.localScale = localScale;
+					newElement.transform.localScale = elementLocalScale;
 					newElement.transform.parent = transform;
 					colliders[xBoxNum, yBoxNum, zBoxNum] = newElement.transform;
 				}
