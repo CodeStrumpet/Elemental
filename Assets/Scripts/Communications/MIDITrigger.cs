@@ -6,15 +6,15 @@ public class MIDITrigger : MonoBehaviour {
 	public int midiNote = 88;
 	public float minSecsBeforeRetrigger = 0.0f;
 
-	private OSCSender oscSender;
+	private OSCCommunicator oscCommunicator;
 	private float secsUntilCanRetrigger = 0.0f;
 
 	// Use this for initialization
 	void Start () {
-		//have to get the OSCSender with a tag if we want this script to be
+		//have to get the OSCCommunicator with a tag if we want this script to be
 		//part of a prefab
-		GameObject oscSenderObject = GameObject.FindWithTag("osc");
-		oscSender = oscSenderObject.GetComponent(typeof(OSCSender)) as OSCSender;
+		GameObject oscCommunicatorObject = GameObject.FindWithTag("osc");
+		oscCommunicator = oscCommunicatorObject.GetComponent(typeof(OSCCommunicator)) as OSCCommunicator;
 	}
 	
 	// Update is called once per frame
@@ -30,13 +30,13 @@ public class MIDITrigger : MonoBehaviour {
 		//print("Trigger Entered");
 		
 		if(secsUntilCanRetrigger == 0.0f) {
-			oscSender.SendNoteOn(midiNote);
+			oscCommunicator.SendNoteOn(midiNote);
 			secsUntilCanRetrigger = minSecsBeforeRetrigger;
 		}
 	}
 	
 	void OnTriggerExit() {
-		oscSender.SendNoteOff(midiNote);
+		oscCommunicator.SendNoteOff(midiNote);
 	}
 	
 	void OnCollisionEnter() {
@@ -54,10 +54,10 @@ public class MIDITrigger : MonoBehaviour {
 	void OnMouseDown() {
 		print("Mouse button pressed");
 		
-		oscSender.SendNoteOn(midiNote);
+		oscCommunicator.SendNoteOn(midiNote);
 	}
 	
 	void OnMouseUp() {
-		oscSender.SendNoteOff(midiNote);
+		oscCommunicator.SendNoteOff(midiNote);
 	}
 }
