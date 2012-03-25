@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OSCCommunicator : MonoBehaviour {
 
@@ -11,10 +12,33 @@ public class OSCCommunicator : MonoBehaviour {
 	public bool verbose = false; //whether to print out received OSC messages to the console
 	
 	public delegate void MidiEventReceiver(string status, int byte1, int byte2);
+	public delegate void OSCMessageReceiver(OscMessage oscMessage);
+	
+	private Dictionary<string, ArrayList> registeredOSCReceivers;
 	
 	public MidiEventReceiver midiEventReceiver;
 	//this is needed because the callback cannot change the scene itself. Only Update() can.
-	private int sceneChange = -1;	
+	private int sceneChange = -1;
+	
+	public void registerOSCReceiver(OSCMessageReceiver omr, string command) {
+		//print("SOMEONE CALLED registerOSCReceiver");
+		//print("registerOSCReceiver size is " + registeredOSCReceivers.Count);
+		bool containsKey = registeredOSCReceivers.ContainsKey(command);
+		if (!containsKey) {
+			registeredOSCReceivers[command] = new ArrayList();
+			registeredOSCReceivers[command].Add(omr);
+		} else {
+			if (!registeredOSCReceivers[command].Contains(omr)) {
+				registeredOSCReceivers[command].Add(omr);
+			}
+		}
+		//print("registerOSCReceiver size is " + registeredOSCReceivers.Count);
+	}
+	public void unregisterOSCReceiver(OSCMessageReceiver omr) {
+		//TODO
+		print("UNREGISTER ME DAMMIT!!!");
+	}
+	
 	
 	~OSCCommunicator() {
 		print("Destructor called");
@@ -25,8 +49,11 @@ public class OSCCommunicator : MonoBehaviour {
 		oscHandler = null;
 		System.GC.Collect();
 	} 
+
+	void Awake() {
+		registeredOSCReceivers = new Dictionary<string, ArrayList>();
+	}
 	
-	// Use this for initialization
 	void Start () {
 		UDPPacketIO udp = GetComponent<UDPPacketIO>();
 		udp.init(remoteIp, senderPort, listenerPort);
@@ -68,6 +95,15 @@ public class OSCCommunicator : MonoBehaviour {
 		
 		string command = (string) m.Values[0];
 		
+		ArrayList interestedParties;
+		if (registeredOSCReceivers.ContainsKey(command)) {
+			//print("FOUND INTERESTED PARTIES!!!! :) :)");
+			interestedParties = registeredOSCReceivers[command];
+			foreach (OSCMessageReceiver r in interestedParties) {
+				r(m);
+			}
+		}
+		
 		if (verbose) {
 			print("OSC command is " + command);
 			for (int i = 0; i < m.Values.Count; i++) {
@@ -83,8 +119,10 @@ public class OSCCommunicator : MonoBehaviour {
 			Debug.Log("SCENE CHANGE!!!!!!!!!");
 			sceneChange = (int) m.Values[1];
 		}
-		else if (command == "fx") {
-			string messageName = "onFX";
+		else if (command == "cc") {
+			
+			//string messageName = "onCC";
+			
 		}
 	}	
 }
