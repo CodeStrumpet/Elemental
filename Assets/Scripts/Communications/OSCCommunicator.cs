@@ -107,11 +107,11 @@ public class OSCCommunicator : MonoBehaviour {
 		*/
 	}
 	
-	//Lets all listeners know if they've received an OSC message that's they've indicated they want to hear
+	//Sends out all messages in the 'oscMessagesToSend' queue and then clears the queue
 	//Called once per Update(). Done this way because the OSC callback can't manipulate Unity objects
 	private void messageInterestedParties() {
 		foreach (OscMessage m in oscMessagesToSend) {
-			string command = (string) m.Values[0];
+			string command = commandForOSCMessage(m);
 			ArrayList interestedParties;
 			if (registeredOSCReceivers.ContainsKey(command)) {
 				//print("FOUND INTERESTED PARTIES!!!! :) :)");
@@ -139,5 +139,13 @@ public class OSCCommunicator : MonoBehaviour {
 	public void unregisterOSCReceiver(OSCMessageReceiver omr) {
 		//TODO
 		print("UNREGISTER ME DAMMIT!!!");
+	}
+	
+	private string commandForOSCMessage(OscMessage message) {
+		string command = (string)message.Values[0];
+		if (command == "cc") {
+			command = command + message.Values[1];
+		}
+		return command;
 	}
 }

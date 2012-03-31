@@ -13,12 +13,8 @@ public class MIDINoteAssigner : MonoBehaviour {
 	public int midiAssignerIncrement = 1;
 	
 	void OnAllCollidersCreated() {
-		
 		int curMIDINote = midiStartNote;
-		print("All Colliders Were Created");
 		ArrayMaker arrayMaker = transform.GetComponent<ArrayMaker>();
-		//Transform[,,] colliders = arrayMaker.Colliders;
-		//int numColliders = colliders.GetLength(0) * colliders.GetLength(1) * colliders.GetLength(2);
 		for (int xNum=0; xNum < arrayMaker.numXElements; xNum++) {
 			for (int yNum=0; yNum < arrayMaker.numYElements; yNum++) {
 				for (int zNum = 0; zNum < arrayMaker.numZElements; zNum++) {
