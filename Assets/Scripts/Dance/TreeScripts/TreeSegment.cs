@@ -18,6 +18,7 @@ public class TreeSegment : MonoBehaviour {
 	private int depthLevel;
 	private Vector3 branchLoc;
 	private bool isRoot = true; //used to enforce calling Init() on children
+	private Vector3 basePoint; // origin point for branches
 	
 	void Awake() {
 		//Covers the root node. For all children, these should be overwritten via Init
@@ -33,11 +34,15 @@ public class TreeSegment : MonoBehaviour {
 			renderer.material.color = new Color(c.r, c.g, c.b, newAlpha);
 		}
 		
-		transform.Rotate(Vector3.forward, _rotateAmount);
+		basePoint = transform.localPosition  - transform.up.normalized * transform.localScale.y / 2f;;
+
+		
+		// transform.Rotate(Vector3.forward, _rotateAmount);
+		transform.RotateAround(basePoint, Vector3.forward, _rotateAmount); // Vector3.forward
 		transform.localScale = transform.localScale * _sizeScalar * Random.Range(80,100)/100f;
 		
 		// randomlength	of new branches	
-		transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y*Random.Range(85,125)/100f, transform.localScale.z); // attenuation factor	
+		transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y*Random.Range(75,115)/100f, transform.localScale.z); // attenuation factor	
 		
 		if (enableWidthDecay) {// make widths smaller
 			if (depthLevel > 3) { // afterdepth level3
@@ -48,8 +53,10 @@ public class TreeSegment : MonoBehaviour {
 		}
 		
 		branchLoc = transform.localPosition + 
-			transform.up.normalized * transform.localScale.y;		
+			transform.up.normalized*1.5f * transform.localScale.y;		
 		
+//			Vector3 translateAmount = branchLoc.localEulerAngles;
+	//		branchLoc.Translate(translateAmount.normalized * branchLoc.localScale.y / 2f);
 	
 		
 		depthLevel = _depthLevel;
@@ -57,6 +64,7 @@ public class TreeSegment : MonoBehaviour {
 		readyToBranch = false;
 	}
 	
+
 	public bool Branch() {
 		
 		if (branched || !readyToBranch) {
@@ -72,7 +80,7 @@ public class TreeSegment : MonoBehaviour {
 			return false;
 		}
 		int childDepth = depthLevel + 1;
-		if (branch1 == null) {
+		if (branch1 == null) { // if no first branch
 			branch1 = Instantiate(this, branchLoc, transform.rotation)
 				as TreeSegment;
 			branch1.Init(childDepth, 
