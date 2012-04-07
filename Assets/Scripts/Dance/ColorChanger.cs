@@ -29,12 +29,20 @@ public class ColorChanger : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider collider) {
-	Debug.Log("Trigger entered");
+	//Debug.Log("Trigger entered");
 	renderer.material.color = onColor;
     }
 
     void OnTriggerExit(Collider collider) {
-	Debug.Log("Trigger exited");
+	//Debug.Log("Trigger exited");
 	renderer.material.color = offColor;
     }
+	
+	void OnMouseOver() {
+		OnCollisionEnter(new Collision());	
+	}
+	
+	void OnMouseExit() {
+		OnCollisionExit(new Collision());
+	}
 }
