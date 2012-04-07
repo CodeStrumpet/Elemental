@@ -1,15 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class ColorChanger : MonoBehaviour {
+public class FIREBALLS : MonoBehaviour {
     public Color onColor = Color.blue;
     public Color offColor = Color.yellow;
-
-	public ParticleEmitter p;
 	
     void Start () {
-		//p = transform.GetComponent<ParticleEmitter>();
-		p.emit = false;
+	
     }
 	
     void Update () {
@@ -18,14 +15,12 @@ public class ColorChanger : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
 	//Debug.Log("Collision detected");
-		renderer.material.color = onColor;		
-		p.emit = true;
+	renderer.material.color = onColor;
     }
 
     void OnCollisionExit(Collision collision) {
 	//Debug.Log("Collision exited");
-		renderer.material.color = offColor;
-		p.emit = false;
+	renderer.material.color = offColor;
     }
 
     void OnTriggerEnter(Collider collider) {
