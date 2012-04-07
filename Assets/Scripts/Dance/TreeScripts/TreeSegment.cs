@@ -9,6 +9,7 @@ public class TreeSegment : MonoBehaviour {
 	public float sizeScalar = 0.925f;
 	public bool enableAlphaDecay = false;
 	public float alphaDecay = 0.9f;
+	public bool branched = false;
 	
 	private TreeSegment branch1;
 	private TreeSegment branch2;
@@ -37,7 +38,12 @@ public class TreeSegment : MonoBehaviour {
 		isRoot = false;
 	}
 	
-	void Branch() {
+	public void Branch() {
+		
+		//not necessary, but does avoid a few unnecessary calcs
+		if (branched) {
+			return;
+		}
 		if (depthLevel != 0 && isRoot) {
 			throw new System.Exception("Cannot branch before calling Init() on TreeSegment");
 		}
@@ -61,8 +67,11 @@ public class TreeSegment : MonoBehaviour {
 			             Random.Range(minBranchAngle, maxBranchAngle) * -1f,
 			             sizeScalar);
 		}
-
+		
+		branched = true;
 		renderer.material.color = new Color(139 / 255f, 69 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
+		
+		return;
 	}
 			
 	void OnMouseUp() {
