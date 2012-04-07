@@ -10,6 +10,7 @@ public class TreeSegment : MonoBehaviour {
 	public bool enableAlphaDecay = false;
 	public float alphaDecay = 0.9f;
 	public bool branched = false;
+	public bool readyToBranch = false;
 	
 	private TreeSegment branch1;
 	private TreeSegment branch2;
@@ -36,21 +37,22 @@ public class TreeSegment : MonoBehaviour {
 			transform.up.normalized * transform.localScale.y;		
 		depthLevel = _depthLevel;
 		isRoot = false;
+		readyToBranch = false;
 	}
 	
-	public void Branch() {
+	public bool Branch() {
 		
-		//not necessary, but does avoid a few unnecessary calcs
-		if (branched) {
-			return;
+		if (branched || !readyToBranch) {
+			return false;
 		}
+			
 		if (depthLevel != 0 && isRoot) {
 			throw new System.Exception("Cannot branch before calling Init() on TreeSegment");
 		}
 
 		if (depthLevel >= maxDepth) {
 			renderer.material.color = new Color(0, 1f, 0, renderer.material.color.a); //DEVEL
-			return;
+			return false;
 		}
 		int childDepth = depthLevel + 1;
 		if (branch1 == null) {
@@ -71,7 +73,7 @@ public class TreeSegment : MonoBehaviour {
 		branched = true;
 		renderer.material.color = new Color(139 / 255f, 69 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
 		
-		return;
+		return true;
 	}
 			
 	void OnMouseUp() {

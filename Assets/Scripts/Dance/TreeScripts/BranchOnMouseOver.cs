@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class GrowOnMouseOver : MonoBehaviour {
+public class BranchOnMouseOver : MonoBehaviour {
     public Color onColor = Color.green;
     public Color offColor = Color.red;
 
