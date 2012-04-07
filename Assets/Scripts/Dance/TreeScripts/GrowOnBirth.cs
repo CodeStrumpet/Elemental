@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GrowOnBirth : MonoBehaviour {
 	
-	private float appearSpeed = 5.0f;
+	private float appearSpeed = 2.0f;
 	private float lerpAmt = 0.0f;
 	private Vector3 origScale;
 	TreeSegment ts;

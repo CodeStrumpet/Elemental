@@ -8,6 +8,7 @@ public class TreeSegment : MonoBehaviour {
 	public float maxBranchAngle = 35f;
 	public float sizeScalar = 0.925f;
 	public bool enableAlphaDecay = false;
+	public bool enableWidthDecay = true;
 	public float alphaDecay = 0.9f;
 	public bool branched = false;
 	public bool readyToBranch = false;
@@ -31,10 +32,26 @@ public class TreeSegment : MonoBehaviour {
 			float newAlpha = c.a * alphaDecay;
 			renderer.material.color = new Color(c.r, c.g, c.b, newAlpha);
 		}
+		
 		transform.Rotate(Vector3.forward, _rotateAmount);
-		transform.localScale = transform.localScale * _sizeScalar;
+		transform.localScale = transform.localScale * _sizeScalar * Random.Range(80,100)/100f;
+		
+		// randomlength	of new branches	
+		transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y*Random.Range(85,125)/100f, transform.localScale.z); // attenuation factor	
+		
+		if (enableWidthDecay) {// make widths smaller
+			if (depthLevel > 3) { // afterdepth level3
+			transform.localScale = new Vector3(transform.localScale.x* .7f, transform.localScale.y, transform.localScale.z); // attenuation factor	
+			}
+			//float newAlpha = c.a * alphaDecay;
+			//renderer.material.color = new Color(c.r, c.g, c.b, newAlpha);
+		}
+		
 		branchLoc = transform.localPosition + 
 			transform.up.normalized * transform.localScale.y;		
+		
+	
+		
 		depthLevel = _depthLevel;
 		isRoot = false;
 		readyToBranch = false;
