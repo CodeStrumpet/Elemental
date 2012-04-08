@@ -1,0 +1,71 @@
+
+
+CaptureScript
+-------------
+
+
+int[] realWorldPoints = context.ProjectiveToWorld
+
+
+
+exclude all points where y < rangeMin || y > rangeMax
+
+export touchX,touchZ  --> touchX, touchY
+
+
+
+
+
+Unity Scripts
+----------------
+
+
+class SharedVertex
+	float unityX, unityY, touchX, touchY
+
+
+
+
+class TouchEventManager
+
+      SharedVertex NW, SW, NE, SE   // TODO this could probably be encoded as a trapezoid
+      float unityToTouchWidthRatio, unityToTouchHeightRatio
+
+
+      setNW(unityX, unityY, touchX, touchY):
+      setNE(unityX, unityY, touchX, touchY):
+      setSW(unityX, unityY, touchX, touchY):
+      setSE(unityX, unityY, touchX, touchY):
+
+      
+      calibrateWithCurrentSharedVertices:
+      
+            unityWidthDelta = NW.unityX - NE.unityX            touchWidthDelta = NW.touchX - NE.touchX
+	    touchHeightDelta = NW.touchY - SW.touchY
+
+	    unityToTouchWidthRatio = unityWidthDelta / touchWidthDelta
+      	    unityToTouchHeightRatio = unityHeightDelta / touchHeightDelta
+
+
+Callbacks (via OSC):	    
+touchDown(touchX, touchY)
+
+touchMoved(touchX, touchY)
+
+touchEnd(touchX, touchY)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
