@@ -46,7 +46,10 @@ public class TreeSegment : MonoBehaviour {
 		
 		if (enableWidthDecay) {// make widths smaller
 			if (depthLevel > 3) { // afterdepth level3
-			transform.localScale = new Vector3(transform.localScale.x* .7f, transform.localScale.y, transform.localScale.z); // attenuation factor	
+			transform.localScale = new Vector3(transform.localScale.x* .6f, transform.localScale.y, transform.localScale.z); // attenuation factor	
+			}
+			if (depthLevel > 7) { // afterdepth level3
+			transform.localScale = new Vector3(transform.localScale.x* .6f, transform.localScale.y*1.2f, transform.localScale.z); // attenuation factor	
 			}
 			//float newAlpha = c.a * alphaDecay;
 			//renderer.material.color = new Color(c.r, c.g, c.b, newAlpha);
@@ -96,7 +99,7 @@ public class TreeSegment : MonoBehaviour {
 		}
 		
 		branched = true;
-		renderer.material.color = new Color(139 / 255f, 69 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
+		renderer.material.color = new Color(139 / 255f, 100 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
 		
 		return true;
 	}
