@@ -7,6 +7,7 @@ using OpenNI;
 
 public class KinectMesh : MonoBehaviour
 {
+    public float zThreshold = 0.0f;
     public bool applyBlur = true;
     public int blurIterations = 1;
 
@@ -140,7 +141,9 @@ public class KinectMesh : MonoBehaviour
                 // RW coordinates
                 pt.X = x * factorX;
                 pt.Y = y * factorY;
-                pt.Z = pixel;
+		if (pixel >= zThreshold) {
+		    pt.Z = pixel;
+		}
                 pts[x + y * XScaled] = pt; // in structs, assignment is a copy, so modifying the same variable
                                            // every iteration is okay
             }
