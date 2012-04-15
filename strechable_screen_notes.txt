@@ -1,0 +1,7 @@
+
+
+- model it after stretched canvas frame to minimize ripples
+
+- use grommets for something more collapable and is in tension
+
+
