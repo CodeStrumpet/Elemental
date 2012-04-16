@@ -3,16 +3,17 @@ using System.Collections;
 
 public class ProceduralTree : MonoBehaviour
 {
-
 	public float startWidth = 3;
 	public float endWidth = 1;
 	public float height = 3;
-
+	
+	private MeshCollider meshCollider;
+	
 	void Start ()
 	{
 		Mesh mesh = new Mesh ();
-		//gameObject.AddComponent<MeshFilter>();
-		GetComponent<MeshFilter> ().mesh = mesh;
+		GetComponent<MeshFilter>().mesh = mesh;
+		meshCollider = GetComponent<MeshCollider>();
 	}
 
 	void Update ()
@@ -48,6 +49,8 @@ public class ProceduralTree : MonoBehaviour
 		mesh.vertices = newVertices;
 		mesh.uv = newUV;
 		mesh.triangles = newTriangles;
+		mesh.RecalculateNormals();
 		
+		meshCollider.sharedMesh = mesh;
 	}
 }
