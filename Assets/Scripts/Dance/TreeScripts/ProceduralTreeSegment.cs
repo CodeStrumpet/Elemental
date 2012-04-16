@@ -15,12 +15,9 @@ public class ProceduralTreeSegment : MonoBehaviour
 	private ProceduralTreeSegment branch2;
 	private int depthLevel;
 	public Vector3 branchLoc; //DEVEL: change back to private
-	private bool isRoot = true;
-	//used to enforce calling Init() on children
-	private Vector3 basePoint;
-	
+	private bool isRoot = true; //used to enforce calling Init() on children
+		
 	private TreePieceMeshMaker treePiece;
-	// origin point for branches
 	
 	private Vector3 GetBranchLoc() {
 		return transform.localPosition + 
@@ -33,23 +30,28 @@ public class ProceduralTreeSegment : MonoBehaviour
 
 		//Covers the root node. For all children, these should be overwritten via Init
 		branchLoc = GetBranchLoc();
+
+		if (true) { //DEVEL
+			GameObject branchSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);		//DEVEL
+			branchSphere.transform.localScale = Vector3.one * 0.25f;
+			branchSphere.transform.position = branchLoc;
+		}
+		
 		depthLevel = 0;
 	}
 
 	public void Init (int _depthLevel, float _rotateAmount, float _sizeScalar)
 	{		
-		basePoint = transform.localPosition - transform.up.normalized * transform.localScale.y / 2f;
 		
-		// transform.Rotate(Vector3.forward, _rotateAmount);
-		transform.RotateAround (basePoint, Vector3.forward, _rotateAmount);
-		// Vector3.forward
-		transform.localScale = transform.localScale * _sizeScalar * Random.Range (80, 100) / 100f;
+		transform.Rotate(Vector3.forward, _rotateAmount);
+		//transform.localScale = transform.localScale * _sizeScalar * Random.Range (80, 100) / 100f;
 		
 		// randomlength	of new branches	
-		transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y * Random.Range (75, 115) / 100f, transform.localScale.z);
+		//transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y * Random.Range (75, 115) / 100f, transform.localScale.z);
 		// attenuation factor	
 		
-		//branchLoc = transform.localPosition + transform.up.normalized * 1.5f * transform.localScale.y;		
+		//reset branchLoc, since it's been rotated
+		branchLoc = GetBranchLoc();
 		
 		depthLevel = _depthLevel;
 		isRoot = false;
