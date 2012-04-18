@@ -21,9 +21,9 @@ public class TreeSegment : MonoBehaviour {
 
     void Awake() {
 	//Covers the root node. For all children, these should be overwritten via Init
-	branchLoc = transform.localPosition + 
+		branchLoc = transform.localPosition + 
 	    transform.up.normalized * transform.localScale.y;
-	depthLevel = 0;
+		depthLevel = 0;
     }
 
     public void Init(int _depthLevel, float _rotateAmount, float _sizeScalar) {
@@ -44,10 +44,10 @@ public class TreeSegment : MonoBehaviour {
 		
 	if (enableWidthDecay) {// make widths smaller
 	    if (depthLevel > 3) { // afterdepth level3
-		transform.localScale = new Vector3(transform.localScale.x* .6f, transform.localScale.y, transform.localScale.z); // attenuation factor	
+			transform.localScale = new Vector3(transform.localScale.x* .6f, transform.localScale.y, transform.localScale.z); // attenuation factor	
 	    }
 	    if (depthLevel > 7) { // afterdepth level3
-		transform.localScale = new Vector3(transform.localScale.x* .6f, transform.localScale.y*1.2f, transform.localScale.z); // attenuation factor	
+			transform.localScale = new Vector3(transform.localScale.x* .6f, transform.localScale.y*1.2f, transform.localScale.z); // attenuation factor	
 	    }
 	    //float newAlpha = c.a * alphaDecay;
 	    //renderer.material.color = new Color(c.r, c.g, c.b, newAlpha);

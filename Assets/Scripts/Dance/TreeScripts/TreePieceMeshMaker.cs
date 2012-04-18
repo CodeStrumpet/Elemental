@@ -3,9 +3,9 @@ using System.Collections;
 
 public class TreePieceMeshMaker : MonoBehaviour
 {
-	public float startWidth = 3;
+	public float startWidth = 1;
 	public float endWidth = 1;
-	public float height = 3;
+	public float height = 1;
 	
 	private MeshCollider meshCollider;
 	
@@ -22,7 +22,7 @@ public class TreePieceMeshMaker : MonoBehaviour
 		Vector2[] newUV = new Vector2[5];
 		int[] newTriangles = new int[6];
 		
-		Mesh mesh = GetComponent<MeshFilter> ().mesh;
+		Mesh mesh = GetComponent<MeshFilter>().mesh;
 		mesh.Clear ();
 		
 		float startMidPoint = startWidth / 2;

@@ -21,21 +21,18 @@ public class ProceduralTreeSegment : MonoBehaviour
 	
 	private Vector3 GetBranchLoc() {
 		return transform.localPosition + 
-			transform.up.normalized * transform.localScale.y * treePiece.height;
+			transform.up.normalized * transform.localScale.y;// * treePiece.height;
 	}
 	
 	void Awake ()
 	{
 		treePiece = GetComponent<TreePieceMeshMaker>();
+		if (treePiece == null) {
+			throw new System.Exception("TreePieceMeshMaker component was not found.");
+		}
 
 		//Covers the root node. For all children, these should be overwritten via Init
 		branchLoc = GetBranchLoc();
-
-		if (true) { //DEVEL
-			GameObject branchSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);		//DEVEL
-			branchSphere.transform.localScale = Vector3.one * 0.25f;
-			branchSphere.transform.position = branchLoc;
-		}
 		
 		depthLevel = 0;
 	}
@@ -65,6 +62,14 @@ public class ProceduralTreeSegment : MonoBehaviour
 		if (branched || !readyToBranch) {
 			return false;
 		}
+
+		
+		if (true) { //DEVEL
+			GameObject branchSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);		//DEVEL
+			branchSphere.transform.localScale = Vector3.one * 0.1f;
+			branchSphere.transform.position = branchLoc;
+		}
+
 		
 		Debug.Log("getting ready to branch"); //DEBUG
 		
