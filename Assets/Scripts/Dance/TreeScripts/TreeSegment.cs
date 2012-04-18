@@ -11,21 +11,21 @@ public class TreeSegment : MonoBehaviour {
     public float alphaDecay = 0.9f;
     public bool branched = false;
     public bool readyToBranch = false;
-	
+
     private TreeSegment branch1;
     private TreeSegment branch2;
     private int depthLevel;
     private Vector3 branchLoc;
     private bool isRoot = true; //used to enforce calling Init() on children
     private Vector3 basePoint; // origin point for branches
-	
+
     void Awake() {
 	//Covers the root node. For all children, these should be overwritten via Init
 	branchLoc = transform.localPosition + 
 	    transform.up.normalized * transform.localScale.y;
 	depthLevel = 0;
     }
-	
+
     public void Init(int _depthLevel, float _rotateAmount, float _sizeScalar) {
 	if (enableAlphaDecay) {
 	    Color c = renderer.material.color;
@@ -33,8 +33,7 @@ public class TreeSegment : MonoBehaviour {
 	    //	    renderer.material.color = new Color(c.r, c.g, c.b, newAlpha);
 	}
 		
-	basePoint = transform.localPosition  - transform.up.normalized * transform.localScale.y / 2f;;
-
+	basePoint = transform.localPosition  - transform.up.normalized * transform.localScale.y / 2f;
 		
 	// transform.Rotate(Vector3.forward, _rotateAmount);
 	transform.RotateAround(basePoint, Vector3.forward, _rotateAmount); // Vector3.forward
@@ -66,7 +65,6 @@ public class TreeSegment : MonoBehaviour {
 	readyToBranch = false;
     }
 	
-
     public bool Branch() {
 		
 	if (branched || !readyToBranch) {

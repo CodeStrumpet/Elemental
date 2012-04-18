@@ -114,7 +114,7 @@ public class OSCCommunicator : MonoBehaviour {
 			string command = commandForOSCMessage(m);
 			ArrayList interestedParties;
 			if (registeredOSCReceivers.ContainsKey(command)) {
-				//print("FOUND INTERESTED PARTIES!!!! :) :)");
+				print("FOUND INTERESTED PARTIES!!!! :) :)");
 				interestedParties = registeredOSCReceivers[command];
 				foreach (OSCMessageReceiver r in interestedParties) {
 					r(m);
@@ -125,6 +125,11 @@ public class OSCCommunicator : MonoBehaviour {
 	}
 	
 	public void registerOSCReceiver(OSCMessageReceiver omr, string command) {
+		
+		if (verbose) {
+			Debug.Log("Registered command " + command);
+		}
+		
 		bool containsKey = registeredOSCReceivers.ContainsKey(command);
 		if (!containsKey) {
 			registeredOSCReceivers[command] = new ArrayList();

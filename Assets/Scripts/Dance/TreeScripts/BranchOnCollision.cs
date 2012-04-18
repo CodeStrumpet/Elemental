@@ -14,6 +14,16 @@ public class BranchOnCollision : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter(Collision c) {
+				
+		//ignore collisions from another tree segment
+		if (c.gameObject.GetComponent<TreeSegment>() != null) {
+			return;
+		}
+
+		c.transform.renderer.material.color = Color.red;
+
+		Debug.Log("Collided with type " + c.GetType());
+		
 		if(ts.Branch()) {
 			Destroy(transform.rigidbody);
 		}

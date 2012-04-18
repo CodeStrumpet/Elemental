@@ -21,7 +21,7 @@ public class OSCColorChanger : OSCMessageListener {
 	public override void OSCMessageReceiver(OscMessage message) {
 
 		float x = System.Convert.ToInt32(message.Values[2]) / 127.0f;
-		print(x);
+		//print(x);
 		renderer.material.color = new Color(System.Convert.ToInt32(message.Values[2]) / 127.0f, 
 		                                    renderer.material.color.g, 
 		                                    renderer.material.color.b, 
