@@ -14,10 +14,13 @@ public class TreePieceMeshMaker : MonoBehaviour
 		Mesh mesh = new Mesh ();
 		GetComponent<MeshFilter>().mesh = mesh;
 		meshCollider = GetComponent<MeshCollider>();
+		
+		//pick a random endWidth
+		endWidth = 0.8f;
 	}
 
 	void Update ()
-	{
+	{// will define shape of all new segments
 		Vector3[] newVertices = new Vector3[5];
 		Vector2[] newUV = new Vector2[5];
 		int[] newTriangles = new int[6];
@@ -25,9 +28,10 @@ public class TreePieceMeshMaker : MonoBehaviour
 		Mesh mesh = GetComponent<MeshFilter>().mesh;
 		mesh.Clear ();
 		
-		float startMidPoint = startWidth / 2;
-		float endMidPoint = endWidth / 2;
+		float startMidPoint = startWidth / 2f;
+		float endMidPoint = endWidth / 2f; // 70% smaller
 		
+		// bottom left, bottom right, top left, top right
 		newVertices[0] = new Vector3 (-startMidPoint, 0, 0);
 		newVertices[1] = new Vector3 (startMidPoint, 0, 0);
 		newVertices[2] = new Vector3 (endMidPoint, height, 0);
@@ -53,4 +57,11 @@ public class TreePieceMeshMaker : MonoBehaviour
 		
 		meshCollider.sharedMesh = mesh;
 	}
+	
+	public void FuckShitUp() {
+	// hi --RG
+		
+		
+	}
+	
 }
