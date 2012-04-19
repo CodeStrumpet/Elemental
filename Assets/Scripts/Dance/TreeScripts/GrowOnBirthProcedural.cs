@@ -18,7 +18,7 @@ public class GrowOnBirthProcedural : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (lerpAmt < 1.0f) {
-			lerpAmt = Mathf.Min(lerpAmt + appearSpeed * Time.deltaTime, 1.0f);
+			lerpAmt = Mathf.Min(lerpAmt + appearSpeed * Random.Range(0.5f,2.5f) * Time.deltaTime, 1.0f); // RG random.range randomgrowthspeed
 			transform.localScale = Vector3.Lerp(Vector3.zero, origScale, lerpAmt);
 		}
 		else {

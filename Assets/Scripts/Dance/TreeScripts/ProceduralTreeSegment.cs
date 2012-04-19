@@ -42,14 +42,24 @@ public class ProceduralTreeSegment : MonoBehaviour
 		transform.Rotate(Vector3.forward, _rotateAmount);
 		transform.localScale = transform.localScale * _sizeScalar; // transform.localScale * _sizeScalar * Random.Range (80, 100) / 100f;
 		
-		// randomlength	of new branches	
-		//transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y * Random.Range (75, 115) / 100f, transform.localScale.z);
-		// attenuation factor	
+		if (_depthLevel == maxDepth) {
+			// transform.renderer.material.SetColor("_Color", Color.gray);
+			Vector3 temp = new Vector3(transform.localScale.x, transform.localScale.y * Random.Range (1.5f, 2.5f), transform.localScale.z); // random length
+			transform.localScale = temp;
+			transform.renderer.material.color = new Color(100 / 255f, 100 / 255f, 100 / 255f, renderer.material.color.a); 
+		} else if (_depthLevel > 5) { // more erratic
+			Vector3 temp = new Vector3(transform.localScale.x, transform.localScale.y * Random.Range (1.0f, 1.5f), transform.localScale.z); // random length
+			transform.localScale = temp;
+		} else { // less erratic
+			Vector3 temp = new Vector3(transform.localScale.x, transform.localScale.y * Random.Range (.80f, 1.15f), transform.localScale.z); // random length
+			transform.localScale = temp;
+		} 
+		
+
 		
 		//reset branchLoc, since it's been rotated
 		branchLoc = GetBranchLoc();
 
-		
 		depthLevel = _depthLevel;
 		isRoot = false;
 		readyToBranch = false;
@@ -58,7 +68,6 @@ public class ProceduralTreeSegment : MonoBehaviour
 
 	public bool Branch ()
 	{
-		
 		if (branched || !readyToBranch) {
 			return false;
 		}
@@ -79,7 +88,9 @@ public class ProceduralTreeSegment : MonoBehaviour
 			//	    renderer.material.color = new Color(0, 1f, 0, renderer.material.color.a); //DEVEL
 			return false;
 		}
+		
 		int childDepth = depthLevel + 1;
+		
 		if (branch1 == null) {// if no first branch
 			branch1 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 			branch1.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle), treePiece.endWidth);
@@ -87,7 +98,7 @@ public class ProceduralTreeSegment : MonoBehaviour
 		
 		if (branch2 == null) {
 			branch2 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
-		branch2.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidth);
+			branch2.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidth);
 		}
 		
 		branched = true;
