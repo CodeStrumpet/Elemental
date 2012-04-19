@@ -42,6 +42,7 @@ public class ProceduralTreeSegment : MonoBehaviour
 		
 		transform.Rotate(Vector3.forward, _rotateAmount);
 		//transform.localScale = transform.localScale * _sizeScalar * Random.Range (80, 100) / 100f;
+		transform.localScale = transform.localScale * _sizeScalar;
 		
 		// randomlength	of new branches	
 		//transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y * Random.Range (75, 115) / 100f, transform.localScale.z);
