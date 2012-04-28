@@ -1,17 +1,17 @@
 using UnityEngine;
 using System.Collections;
 
-public class BranchOnCollision : MonoBehaviour {
+public class ProceduralBranchOnCollision : MonoBehaviour {
 	
-	private TreeSegment ts;
+	private ProceduralTreeSegment ts;
 	public bool verbose = false;
 	
 	// Use this for initialization
 	void Start () {
-		ts = gameObject.GetComponent<TreeSegment>();
+		ts = gameObject.GetComponent<ProceduralTreeSegment>();
 
 		if (ts == null) {
-			throw new System.Exception("This GameObject needs a TreeSegment");
+			throw new System.Exception("This GameObject needs a ProceduralTreeSegment");
 		}
 		
 		if (gameObject.GetComponent<Rigidbody>() == null) {
@@ -22,7 +22,7 @@ public class BranchOnCollision : MonoBehaviour {
 	void OnCollisionEnter(Collision c) {
 						
 		//ignore collisions from another tree segment
-		if (c.gameObject.GetComponent<TreeSegment>() != null) {
+		if (c.gameObject.GetComponent<ProceduralTreeSegment>() != null) {
 			return;
 		}
 
