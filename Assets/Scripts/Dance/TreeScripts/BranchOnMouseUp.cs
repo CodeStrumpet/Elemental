@@ -4,10 +4,10 @@ using System.Collections;
 public class BranchOnMouseUp : MonoBehaviour {
 	public bool verbose = false;
 
-	//private TreeSegment ts;
+	private ProceduralTreeSegment pts;
 	
     void Start () {
-		//ts = gameObject.GetComponent<TreeSegment>();
+		pts = gameObject.GetComponent<ProceduralTreeSegment>();
     }
 	
     void Update () {
@@ -16,8 +16,6 @@ public class BranchOnMouseUp : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (verbose) Debug.Log("OnMouseUp() entered");
-//		if (ts != null) {
-//			ts.Branch();
-//		}
+		pts.Branch();
 	}
 }

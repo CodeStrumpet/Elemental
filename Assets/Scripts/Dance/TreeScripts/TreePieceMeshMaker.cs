@@ -3,20 +3,16 @@ using System.Collections;
 
 public class TreePieceMeshMaker : MonoBehaviour
 {
-	public float startWidth = 1;
-	public float endWidth = 1;
-	public float height = 1;
+	public float endWidthRatio = 1f;
 	
 	private MeshCollider meshCollider;
 	
+	//note: only update the shape from ProceduralTreeSegment
 	void Start ()
 	{
 		Mesh mesh = new Mesh ();
 		GetComponent<MeshFilter>().mesh = mesh;
 		meshCollider = GetComponent<MeshCollider>();
-		
-		//pick a random endWidth
-		endWidth = 0.8f;
 	}
 
 	void Update ()
@@ -28,14 +24,14 @@ public class TreePieceMeshMaker : MonoBehaviour
 		Mesh mesh = GetComponent<MeshFilter>().mesh;
 		mesh.Clear ();
 		
-		float startMidPoint = startWidth / 2f;
-		float endMidPoint = endWidth / 2f; // 70% smaller
+		float startMidPointXCoord = 0.5f;
+		float endMidPointXCoord = 0.5f * endWidthRatio;
 		
 		// bottom left, bottom right, top left, top right
-		newVertices[0] = new Vector3 (-startMidPoint, 0, 0);
-		newVertices[1] = new Vector3 (startMidPoint, 0, 0);
-		newVertices[2] = new Vector3 (endMidPoint, height, 0);
-		newVertices[3] = new Vector3 (-endMidPoint, height, 0);
+		newVertices[0] = new Vector3 (-startMidPointXCoord, 0, 0);
+		newVertices[1] = new Vector3 (startMidPointXCoord, 0, 0);
+		newVertices[2] = new Vector3 (endMidPointXCoord, 1.0f, 0);
+		newVertices[3] = new Vector3 (-endMidPointXCoord, 1.0f, 0);
 
 		newTriangles[0] = 0;
 		newTriangles[1] = 1;
@@ -57,11 +53,4 @@ public class TreePieceMeshMaker : MonoBehaviour
 		
 		meshCollider.sharedMesh = mesh;
 	}
-	
-	public void FuckShitUp() {
-	// hi --RG
-		
-		
-	}
-	
 }

@@ -6,44 +6,48 @@ public class ProceduralTreeSegment : MonoBehaviour
 	public int maxDepth = 7;
 	public float minBranchAngle = 3f;
 	public float maxBranchAngle = 35f;
-	public float sizeScalar = 0.925f;
-	public bool enableWidthDecay = false;
-	public bool branched = false;
+	public float sizeScalar = 1f;
+	public bool verbose = false;
 	public bool readyToBranch = false;
-
+	
+	private bool branched = false;
 	private ProceduralTreeSegment branch1;
 	private ProceduralTreeSegment branch2;
 	private int depthLevel;
-	public Vector3 branchLoc; //DEVEL: change back to private
+	public Vector3 branchLoc; //DEVEL: delete this. it should only be in the scope of the Branch() method
 	private bool isRoot = true; //used to enforce calling Init() on children
+	private bool hasGrowthBehavior = false;
 
 	private TreePieceMeshMaker treePiece;
-
-	private Vector3 GetBranchLoc() {
-		return transform.localPosition + 
-			transform.up.normalized * transform.localScale.y * treePiece.height;
-	}
-
-	void Awake ()
+	
+	//do very little in Awake(). It should all be done in Init()
+	void Awake()
 	{
 		treePiece = GetComponent<TreePieceMeshMaker>();
 
-		// treePiece.setEndWidth()
-
-		//Covers the root node. For all children, these should be overwritten via Init
-		branchLoc = GetBranchLoc();
-
-		depthLevel = 0;
+		depthLevel = 0; //this must be overwritten in Init() for everyone but the root node
+		setHasGrowthBehavior();
+		
+		if (!hasGrowthBehavior) {
+			readyToBranch = true;
+		}
 	}
 
 	public void Init (int _depthLevel, float _rotateAmount, float _sizeScalar)
 	{		
-
-		transform.Rotate(Vector3.forward, _rotateAmount);
-		transform.localScale = transform.localScale * _sizeScalar; // transform.localScale * _sizeScalar * Random.Range (80, 100) / 100f;
+		//_sizeScaler is the piece's starting width
 		
+		transform.Rotate(Vector3.forward, _rotateAmount);
+		
+		if (verbose) {
+			Debug.Log("_sizeScalar is " + _sizeScalar);
+		}
+		
+		transform.localScale = transform.localScale * _sizeScalar;
+			
+		//code to alter sizes based on tree depth
+		/*
 		if (_depthLevel == maxDepth) {
-			// transform.renderer.material.SetColor("_Color", Color.gray);
 			Vector3 temp = new Vector3(transform.localScale.x, transform.localScale.y * Random.Range (1.5f, 2.5f), transform.localScale.z); // random length
 			transform.localScale = temp;
 			transform.renderer.material.color = new Color(100 / 255f, 100 / 255f, 100 / 255f, renderer.material.color.a); 
@@ -54,34 +58,49 @@ public class ProceduralTreeSegment : MonoBehaviour
 			Vector3 temp = new Vector3(transform.localScale.x, transform.localScale.y * Random.Range (.80f, 1.15f), transform.localScale.z); // random length
 			transform.localScale = temp;
 		} 
+		*/
 		
-
-		
-		//reset branchLoc, since it's been rotated
-		branchLoc = GetBranchLoc();
-
 		depthLevel = _depthLevel;
 		isRoot = false;
-		readyToBranch = false;
+	}
+	
+	private Vector3 GetBranchLoc() {
+		return transform.localPosition + 
+			transform.up.normalized * transform.localScale.y;
 	}
 
+	private void setHasGrowthBehavior() {
+		GrowOnBirthProcedural temp = GetComponent<GrowOnBirthProcedural>();
+		if (temp != null) {
+			hasGrowthBehavior = true; //false because it's waiting for GrowOnBirthProcedural to set it to true
+		} else {
+			hasGrowthBehavior = false;
+		}
+	}
+	
+	void markBranchPoint() {
+		GameObject branchSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		branchSphere.transform.localScale = Vector3.one * 0.15f;
+		branchSphere.transform.position = branchLoc;
+	}
 
-	public bool Branch ()
+	public bool Branch()
 	{
+
+		if (verbose) {
+			Debug.Log("Branch() entered");
+		}
+
 		if (branched || !readyToBranch) {
 			return false;
 		}
+		
+		branchLoc = GetBranchLoc();
 
-		if (false) { //DEVEL (show branch point)
-			GameObject branchSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);		//DEVEL
-			branchSphere.transform.localScale = Vector3.one * 0.15f;
-			branchSphere.transform.position = branchLoc;
-		}
-
-		Debug.Log("getting ready to branch"); //DEBUG
-
+		if (verbose) markBranchPoint();
+		
 		if (depthLevel != 0 && isRoot) {
-			throw new System.Exception ("Cannot branch before calling Init() on TreeSegment");
+			throw new System.Exception("Cannot branch before calling Init() on TreeSegment");
 		}
 
 		if (depthLevel >= maxDepth) {
@@ -92,14 +111,16 @@ public class ProceduralTreeSegment : MonoBehaviour
 		int childDepth = depthLevel + 1;
 		
 		if (branch1 == null) {// if no first branch
-			branch1 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
-			branch1.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle), treePiece.endWidth);
+			branch1 = Instantiate(this, branchLoc, transform.rotation) as ProceduralTreeSegment;
+			branch1.Init(childDepth, Random.Range (minBranchAngle, maxBranchAngle), treePiece.endWidthRatio);
 		}
-
+		
+		/*
 		if (branch2 == null) {
-			branch2 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
-			branch2.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidth);
+			branch2 = Instantiate(this, branchLoc, transform.rotation) as ProceduralTreeSegment;
+			branch2.Init(childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidthRatio);
 		}
+		*/
 
 		branched = true;
 		//	renderer.material.color = new Color(139 / 255f, 100 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
@@ -110,9 +131,9 @@ public class ProceduralTreeSegment : MonoBehaviour
 		return true;
 	}
 
-	void OnMouseUp ()
+	void OnMouseUp()
 	{
-		Debug.Log("mouse pressed"); //DEBUG
-		Branch ();
+		Branch();
 	}
 }
+

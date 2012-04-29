@@ -1,0 +1,13 @@
+Get cube red val changing.
+
+Put red val script in folder.
+
+Get scene changer working.
+
+why do we have midievent? (Any MIDI channel not scene change or CC gets the "midievent" command.) Where's that command coming from? (Middleware) Should we handle it better? (yes)
+
+Figure out better way to handle scene change.
+
+Figure out best way to make pile of CC FX to automate from Ableton.
+
+MIDI scene changes shouldn't get a whole channel. It should be a CC message.
