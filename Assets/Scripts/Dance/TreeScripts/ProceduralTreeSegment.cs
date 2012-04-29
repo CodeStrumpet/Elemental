@@ -23,6 +23,8 @@ public class ProceduralTreeSegment : MonoBehaviour
 	//do very little in Awake(). It should all be done in Init()
 	void Awake()
 	{
+		readyToBranch = false; //resetting since children will start as true because parent is instantiated
+		
 		treePiece = GetComponent<TreePieceMeshMaker>();
 
 		depthLevel = 0; //this must be overwritten in Init() for everyone but the root node
