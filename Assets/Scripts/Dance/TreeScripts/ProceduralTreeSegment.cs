@@ -3,17 +3,17 @@ using System.Collections;
 
 public class ProceduralTreeSegment : MonoBehaviour
 {
-	public int maxDepth = 7;
 	public float minBranchAngle = 3f;
 	public float maxBranchAngle = 35f;
 	public float sizeScalar = 1f;
 	public bool verbose = false;
 	public bool readyToBranch = false;
 	
+	private int maxDepth = 7;
+	private int depthLevel;
 	private bool branched = false;
 	private ProceduralTreeSegment branch1;
 	private ProceduralTreeSegment branch2;
-	private int depthLevel;
 	public Vector3 branchLoc; //DEVEL: delete this. it should only be in the scope of the Branch() method
 	private bool isRoot = true; //used to enforce calling Init() on children
 	private bool hasGrowthBehavior = false;
@@ -115,12 +115,10 @@ public class ProceduralTreeSegment : MonoBehaviour
 			branch1.Init(childDepth, Random.Range (minBranchAngle, maxBranchAngle), treePiece.endWidthRatio);
 		}
 		
-		/*
 		if (branch2 == null) {
 			branch2 = Instantiate(this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 			branch2.Init(childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidthRatio);
 		}
-		*/
 
 		branched = true;
 		//	renderer.material.color = new Color(139 / 255f, 100 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
@@ -129,6 +127,18 @@ public class ProceduralTreeSegment : MonoBehaviour
 
 
 		return true;
+	}
+	
+	public int DepthLevel {
+		get {
+			return depthLevel;
+		}
+	}
+
+	public int MaxDepth {
+		get {
+			return maxDepth;
+		}
 	}
 
 	void OnMouseUp()
