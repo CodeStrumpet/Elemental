@@ -115,11 +115,13 @@ public class ProceduralTreeSegment : MonoBehaviour
 		if (branch1 == null) {// if no first branch
 			branch1 = Instantiate(this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 			branch1.Init(childDepth, Random.Range (minBranchAngle, maxBranchAngle), treePiece.endWidthRatio);
+			branch1.BroadcastMessage("Initted");
 		}
 		
 		if (branch2 == null) {
 			branch2 = Instantiate(this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 			branch2.Init(childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidthRatio);
+			branch2.BroadcastMessage("Initted");
 		}
 
 		branched = true;

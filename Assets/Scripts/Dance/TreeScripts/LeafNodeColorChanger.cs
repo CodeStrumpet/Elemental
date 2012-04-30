@@ -10,7 +10,7 @@ public class LeafNodeColorChanger : MonoBehaviour {
 	void Start () {
 		pts = GetComponent<ProceduralTreeSegment>();
 		if (pts == null) {
-			throw new System.Exception("A ProeceduralTreeSegment script must be attached for this script to work");
+			throw new System.Exception("A ProceduralTreeSegment script must be attached for this script to work");
 		}
 		
 		if (pts.DepthLevel == pts.MaxDepth) {
