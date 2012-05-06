@@ -9,7 +9,7 @@ public class ProceduralTreeSegment : MonoBehaviour
 	public bool verbose = false;
 	public bool readyToBranch = false;
 	
-	private int maxDepth = 7;
+	public int maxDepth = 7;
 	private int depthLevel;
 	private bool branched = false;
 	private ProceduralTreeSegment branch1;

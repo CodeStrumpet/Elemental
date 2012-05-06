@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class LeafNodeColorChanger : MonoBehaviour {
+public class LeafNodeTatPiece : MonoBehaviour {
 	
-	//private ProceduralTreeSegment pts;
-	public Color leafColor = Color.green;
+	//public Material material;
+	public Texture tatTexture;
 	
 	// Use this for initialization
 	void Start () {
@@ -14,12 +14,9 @@ public class LeafNodeColorChanger : MonoBehaviour {
 		}
 		
 		if (pts.DepthLevel == pts.MaxDepth) {
-			transform.renderer.material.color = leafColor;
+			//renderer.material = material;	
+			renderer.material.mainTexture = tatTexture;
+			renderer.material.shader = Shader.Find("Transparent/Diffuse");
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
