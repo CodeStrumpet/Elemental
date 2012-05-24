@@ -4,7 +4,7 @@ using System.Collections;
 public class LeafNodeTatPiece : MonoBehaviour {
 	
 	//public Material material;
-	public Texture tatTexture;
+	public Texture[] tatTextures;
 	
 	// Use this for initialization
 	void Start () {
@@ -14,9 +14,14 @@ public class LeafNodeTatPiece : MonoBehaviour {
 		}
 		
 		if (pts.DepthLevel == pts.MaxDepth) {
-			//renderer.material = material;	
-			renderer.material.mainTexture = tatTexture;
+			//renderer.material = material;
+			renderer.material.mainTexture = tatTextures[Random.Range(0, tatTextures.Length)];
 			renderer.material.shader = Shader.Find("Transparent/Diffuse");
 		}
+		
+		setScale();
+	}
+	
+	private void setScale() {
 	}
 }
