@@ -67,8 +67,9 @@ public class ProceduralTreeSegment : MonoBehaviour
 		} 
 		*/
 
-depthLevel = _depthLevel;
+		depthLevel = _depthLevel;
 		isRoot = false;
+		BroadcastMessage("Initted");
 	}
 
 	private Vector3 GetBranchLoc ()
@@ -126,26 +127,26 @@ depthLevel = _depthLevel;
 			if (branch1 == null) { // if no first branch
 				branch1 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 				branch1.Init (childDepth, 0, treePiece.endWidthRatio);
-				branch1.BroadcastMessage ("Initted");
+				//branch1.BroadcastMessage ("Initted");
 			}			
 		} else {
 			if (branch1 == null) { // if no first branch
 				branch1 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 				branch1.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle), treePiece.endWidthRatio);
-				branch1.BroadcastMessage ("Initted");
+				//branch1.BroadcastMessage ("Initted");
 			}
 			
 			if (branch2 == null) {
 				branch2 = Instantiate (this, branchLoc, transform.rotation) as ProceduralTreeSegment;
 				branch2.Init (childDepth, Random.Range (minBranchAngle, maxBranchAngle) * -1f, treePiece.endWidthRatio);
-				branch2.BroadcastMessage ("Initted");
+				//branch2.BroadcastMessage ("Initted");
 			}
 		}
 		
 		branched = true;
 		//	renderer.material.color = new Color(139 / 255f, 100 / 255f, 19 / 255f, renderer.material.color.a); //DEVEL
 		
-		Debug.Log ("finished branching");
+		//Debug.Log ("finished branching");
 		//DEBUG
 		
 		return true;
