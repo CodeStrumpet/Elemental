@@ -8,7 +8,7 @@ public class LeafNodeTatPiece : MonoBehaviour {
 	
 	public int tatTreeNum = -1; //DEV: this should be made private after development
 	private Vector3 scaleFactors; //to account 
-	private int xOffset; //because centers of tree pieces aren't always in the center of the image
+	//private int xOffset; //because centers of tree pieces aren't always in the center of the image
 	
 	// Use this for initialization
 	private void SetTreeSegTexture() {		
@@ -27,6 +27,12 @@ public class LeafNodeTatPiece : MonoBehaviour {
 		if (pts.DepthLevel == pts.MaxDepth) {
 			SetTreeSegTexture();
 		}
+	}
+	
+	private void setNewYScale(Vector2 origImageDimensions) {
+		
+		float newYLocalScale = transform.localScale.x * origImageDimensions.y / origImageDimensions.x;
+		transform.localScale = new Vector3(transform.localScale.x, newYLocalScale, transform.localScale.z);
 	}
 	
 	private void SetScale(int textureNum) {
@@ -55,14 +61,15 @@ public class LeafNodeTatPiece : MonoBehaviour {
 		//what should the scaling be?
 		//scale up by the percentage that the trunk occupies
 		float percentOccupiedByTrunk = ((float) origRightTrunkLoc - origLeftTrunkLoc) / origDimensions.x;
-		Debug.Log("percentOccupiedByTrunk: " + percentOccupiedByTrunk);
 		float recip = 1.0f / percentOccupiedByTrunk;
-		Debug.Log("recip is " + recip);
-		Debug.Log("localScale is " + transform.localScale);
 		transform.localScale *= recip;
-		//Debug.Log("localScale is now " + transform.localScale);
+		
+		setNewYScale(origDimensions);
 		
 		//how much to offset on the x axis
+		//int trunkMidpoint = (origRightTrunkLoc - origLeftTrunkLoc) / 2;
+		//int imageMidpoint = origDimensions.x / 2;
+		
 		
 
 	}
