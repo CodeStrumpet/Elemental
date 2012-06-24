@@ -6,13 +6,21 @@ public class LeafNodeTatPiece : MonoBehaviour {
 	//public Material material;
 	public Texture[] tatTextures;
 	
+	private int lastSelectedPiece = -1;
+	
 	public int tatTreeNum = -1; //DEV: this should be made private after development
 	private Vector3 scaleFactors; //to account 
 	//private int xOffset; //because centers of tree pieces aren't always in the center of the image
 	
 	// Use this for initialization
 	private void SetTreeSegTexture() {		
+		
 		tatTreeNum = Random.Range(0, tatTextures.Length);
+		while (tatTreeNum == lastSelectedPiece) {
+			tatTreeNum = Random.Range(0, tatTextures.Length);
+		}
+		lastSelectedPiece = tatTreeNum;	
+		
 		renderer.material.mainTexture = tatTextures[tatTreeNum];
 		renderer.material.shader = Shader.Find("Transparent/Diffuse");
 		SetScale(tatTreeNum);
@@ -35,12 +43,24 @@ public class LeafNodeTatPiece : MonoBehaviour {
 		transform.localScale = new Vector3(transform.localScale.x, newYLocalScale, transform.localScale.z);
 	}
 	
+	//The midpoint of the trunk isn't necessarily the midpoint of the segment.
+	//This function moves the midpoint of the trunk to where the midpoint of the segment was.
+	private void offsetSegment(Vector2 origImageSize, int origLeftTrunkX, int origRightTrunkX) {
+		float origMidpoint = origImageSize.x / 2.0f;
+		float treeTrunkMidpoint = (origRightTrunkX + origLeftTrunkX) / 2.0f;
+		float offSetInPixels = origMidpoint - treeTrunkMidpoint;
+		offSetInPixels *= -1.0f; //for some reason, x directions are reversed
+		float ratioToOffset = offSetInPixels / origImageSize.x;
+		Debug.Log("ratioToOffset is " + ratioToOffset);
+		//transform.Translate(Vector3.right * transform.localScale.x);
+		Vector3 vecToTranslateBy = Vector3.right * transform.localScale.x * ratioToOffset;
+		Debug.Log("vecToTranslateBy.x is " + vecToTranslateBy.x);
+		transform.Translate(vecToTranslateBy);
+	}
+	
 	private void SetScale(int textureNum) {
-		Debug.Log("SetScale called");
 		//tree piece 1 original dimensions: 1814 x 4171
 		//tree piece 1 span of trunk: 520 through 959
-		
-		Debug.Log("textureNum is " + textureNum);
 		
 		Vector2 origDimensions;
 		int origLeftTrunkLoc;
@@ -53,6 +73,16 @@ public class LeafNodeTatPiece : MonoBehaviour {
 				origLeftTrunkLoc = 520;
 				origRightTrunkLoc = 959;
 				break;
+			case 1:
+				origDimensions = new Vector2(2474, 4156);
+				origLeftTrunkLoc = 1033;
+				origRightTrunkLoc = 1419;
+				break;			
+			case 2:
+				origDimensions = new Vector2(2064, 4152);
+				origLeftTrunkLoc = 856;
+				origRightTrunkLoc = 1405;
+				break;			
 			default:
 				throw new System.Exception("Error in retrieving dimensions of provided texture");			
 				break;
@@ -65,6 +95,7 @@ public class LeafNodeTatPiece : MonoBehaviour {
 		transform.localScale *= recip;
 		
 		setNewYScale(origDimensions);
+		offsetSegment(origDimensions, origLeftTrunkLoc, origRightTrunkLoc);
 		
 		//how much to offset on the x axis
 		//int trunkMidpoint = (origRightTrunkLoc - origLeftTrunkLoc) / 2;

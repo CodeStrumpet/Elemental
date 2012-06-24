@@ -24,7 +24,8 @@ public class objectPerUser : MonoBehaviour {
 	void Update () {
 		foreach (KeyValuePair<int,GameObject> entry in userObjMap)
 		{
-			entry.Value.transform.localPosition = Vector3.Scale(scale,UserTracker.GetUserCenterOfMass(entry.Key));
+			Vector3 centerOfMassPosition =   Vector3.Scale(scale,UserTracker.GetUserCenterOfMass(entry.Key));
+			entry.Value.transform.localPosition = centerOfMassPosition;
 		}
 	}
 

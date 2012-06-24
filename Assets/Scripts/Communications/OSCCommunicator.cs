@@ -75,15 +75,18 @@ public class OSCCommunicator : MonoBehaviour {
 	}
 	
 	public void OSCCallback(OscMessage m) {
-		if (verbose) {
+		Debug.Log("OSCCallback running  " + m);
+		/*
+		//if (verbose) {
 			string command = (string) m.Values[0];
 			string osc_report_string = "";
 			print("OSC command is " + command);
 			for (int i = 0; i < m.Values.Count; i++) {
 				osc_report_string = osc_report_string + "Values[" + i + "]: " + m.Values[i] + "***";
 			}
-			print("osc_report_string: " + osc_report_string + "\n");
-		}
+			Debug.Log("osc_report_string: " + osc_report_string + "\n");
+		//}
+		*/
 		
 		oscMessagesToSend.Add(m);
 		
