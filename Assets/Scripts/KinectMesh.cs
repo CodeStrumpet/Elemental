@@ -44,12 +44,15 @@ public class KinectMesh : MonoBehaviour
     {
         // init stuff
         MapOutputMode mom = OpenNIContext.Instance.Depth.MapOutputMode;
+		
         YRes = mom.YRes;
         XRes = mom.XRes;
+		
         factorX = (int)(XRes / DesiredResolution.x);
         factorY = (int)(YRes / DesiredResolution.y);
-        // depthmap data
         rawDepthMap = new short[(int)(mom.XRes * mom.YRes)];
+
+		rawDepthMap = new short[(int)(640 * 480)];
 
         // the actual mesh we'll use
         
