@@ -66,6 +66,8 @@ public class ClassicBoids : MonoBehaviour {
 				if (fixYValue) {
 					boidsarray[i].velocity.y = 0.0f;
 				}
+			
+				boidsarray[i].velocity = Vector3.Normalize(boidsarray[i].velocity);
 	
 				boidsarray[i].transform.rotation = Quaternion.LookRotation(boidsarray[i].velocity);
 				boidsarray[i].transform.Translate(Vector3.forward * speed * Time.deltaTime);
