@@ -72,9 +72,9 @@ public class KinectParticleEmitter : MonoBehaviour {
 	}
 	
 	void SpoofKinectData() {
-		p3d = new Point3D[5];
+		p3d = new Point3D[64*48];
 		
-		float scalar = 1.0f;
+		float scalar = 0.25f;
 		
 		for (int i=0; i < p3d.GetLength(0); i++) {
 			p3d[i] = new Point3D(i * scalar, i * scalar, 0);
