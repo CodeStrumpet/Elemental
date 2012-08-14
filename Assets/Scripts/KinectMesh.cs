@@ -17,10 +17,15 @@ public class KinectMesh : MonoBehaviour
     public Vector3 gridScale = Vector3.one;
     public bool GenerateNormals = false;
     public bool GenerateUVs = true;
-    public bool RealWorldPoints = true; // perform perspective transform on depth-map
+	//can't find a counterpart to this in the new ZDK
+    //public bool RealWorldPoints = true; // perform perspective transform on depth-map
 
     public Vector2 DesiredResolution = new Vector2(160, 120); // should be a divisor of 640x480
                                                               // and 320x240 is too high (too many vertices)
+	
+	public float interval = 2f; // seconds
+	float nextUpdateTime = 0;
+	
     int factorX;
     int factorY;
 
@@ -28,7 +33,7 @@ public class KinectMesh : MonoBehaviour
     float[] depthHistogramMap;
     int XRes;
     int YRes;
-    Mesh mesh;
+    Mesh curMesh;
     MeshFilter meshFilter;
 
     Vector2[] uvs;
@@ -42,21 +47,22 @@ public class KinectMesh : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		nextUpdateTime = Time.time + interval;
+		
         // init stuff
-        MapOutputMode mom = OpenNIContext.Instance.Depth.MapOutputMode;
-        YRes = mom.YRes;
-        XRes = mom.XRes;
+        YRes = ZigInput.Depth.yres;
+        XRes = ZigInput.Depth.xres;
         factorX = (int)(XRes / DesiredResolution.x);
         factorY = (int)(YRes / DesiredResolution.y);
         // depthmap data
-        rawDepthMap = new short[(int)(mom.XRes * mom.YRes)];
+        rawDepthMap = new short[(int)(XRes * YRes)];
 
         // the actual mesh we'll use
         
-        mesh = new Mesh();
+        curMesh = new Mesh();
 
         meshFilter = (MeshFilter)GetComponent(typeof(MeshFilter));
-        meshFilter.mesh = mesh;
+        meshFilter.mesh = curMesh;
 
         int YScaled = YRes / factorY;
         int XScaled = XRes / factorX;
@@ -68,15 +74,15 @@ public class KinectMesh : MonoBehaviour
         CalculateTriangleIndices(YScaled, XScaled);
         CalculateUVs(YScaled, XScaled);
 
-	// Gaussian blur
-	meshBlur = new MeshBlur();
-	meshBlur.myFilter = new int[,] {{1, 2, 1}, {2, 4, 2}, {1, 2, 1}};
-
-	// Mesh lerp
-	meshLerp = new MeshLerp(XScaled, YScaled);
+		// Gaussian blur
+		meshBlur = new MeshBlur();
+		meshBlur.myFilter = new int[,] {{1, 2, 1}, {2, 4, 2}, {1, 2, 1}};
+	
+		// Mesh lerp
+		meshLerp = new MeshLerp(XScaled, YScaled);
     }
 
-    void UpdateDepthmapMesh()
+    void UpdateDepthmapMesh(Mesh mesh)
     {
         if (meshFilter == null)
             return;
@@ -88,11 +94,11 @@ public class KinectMesh : MonoBehaviour
         int XScaled = XRes / factorX;
         // first stab, generate all vertices (next time, only vertices for 'valid' depths)
         // first stab, decimate rather than average depth pixels
-        UpdateVertices(YScaled, XScaled);
+        UpdateVertices(mesh, YScaled, XScaled);
         if (GenerateUVs) {
-            UpdateUVs(YScaled, XScaled);
+            UpdateUVs(mesh, YScaled, XScaled);
         }
-        UpdateTriangleIndices();
+        UpdateTriangleIndices(mesh);
         // normals - if we generate we need to update them according to the new mesh
         if (GenerateNormals) {
             mesh.RecalculateNormals();
@@ -104,7 +110,7 @@ public class KinectMesh : MonoBehaviour
         Profiler.EndSample();
     }
 
-    private void UpdateUVs(int YScaled, int XScaled)
+    private void UpdateUVs(Mesh mesh, int YScaled, int XScaled)
     {
         Profiler.BeginSample("UpdateUVs");
         mesh.uv = uvs;
@@ -123,14 +129,15 @@ public class KinectMesh : MonoBehaviour
         }
     }
     
-    private void UpdateVertices(int YScaled, int XScaled)
+    private void UpdateVertices(Mesh mesh, int YScaled, int XScaled)
     {
         int depthIndex = 0;
         Profiler.BeginSample("UpdateVertices");
 
         Profiler.BeginSample("FillPoint3Ds");
-        DepthGenerator dg = OpenNIContext.Instance.Depth;
-        short maxDepth = (short)OpenNIContext.Instance.Depth.DeviceMaxDepth;
+        //DepthGenerator dg = OpenNIContext.Instance.Depth;
+        //short maxDepth = (short)OpenNIContext.Instance.Depth.DeviceMaxDepth;
+		short maxDepth = (short) 2^11 - 1;
         Vector3 vec = new Vector3();
         Point3D pt = new Point3D();
         for (int y = 0; y < YScaled; y++) {
@@ -152,14 +159,10 @@ public class KinectMesh : MonoBehaviour
         }
         Profiler.EndSample();
         Profiler.BeginSample("ProjectiveToRW");
-        if (RealWorldPoints) {
-            pts = dg.ConvertProjectiveToRealWorld(pts);
-        }
-        else {
-            for (int i = 0; i < pts.Length; i++) {
-                pts[i].X -= XRes / 2;
-                pts[i].Y = (YRes / 2) - pts[i].Y; // flip Y axis in projective
-            }
+
+        for (int i = 0; i < pts.Length; i++) {
+            pts[i].X -= XRes / 2;
+             pts[i].Y = (YRes / 2) - pts[i].Y; // flip Y axis in projective
         }
         Profiler.EndSample();
         Profiler.BeginSample("PointsToVertices");
@@ -189,7 +192,7 @@ public class KinectMesh : MonoBehaviour
         Profiler.EndSample();
     }
 
-    private void UpdateTriangleIndices()
+    private void UpdateTriangleIndices(Mesh mesh)
     {
         Profiler.BeginSample("UpdateTriangleIndices");
 
@@ -220,12 +223,18 @@ public class KinectMesh : MonoBehaviour
     int lastFrameId;
     void FixedUpdate()
     {
-        // update only if we have a new depth frame
-        if (lastFrameId != OpenNIContext.Instance.Depth.FrameID) {
-            lastFrameId = OpenNIContext.Instance.Depth.FrameID;
-            Marshal.Copy(OpenNIContext.Instance.Depth.DepthMapPtr,
-                         rawDepthMap, 0, rawDepthMap.Length);
-            UpdateDepthmapMesh();
-        }
-    }
+		
+
+		
+		if (Time.time > nextUpdateTime) {
+		    nextUpdateTime = Time.time + interval;
+
+			rawDepthMap = ZigInput.Depth.data;
+			UpdateDepthmapMesh(curMesh);
+			
+			//meshIndex = (meshIndex + 1) % totalCopies;
+		    //Mesh newMesh = meshCopies[meshIndex].GetComponent<MeshFilter>().mesh;
+	    	//UpdateDepthmapMesh(newMesh);
+		}
+	}
 }
