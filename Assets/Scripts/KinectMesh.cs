@@ -50,25 +50,12 @@ public class KinectMesh : MonoBehaviour
 		nextUpdateTime = Time.time + interval;
 		
         // init stuff
-<<<<<<< HEAD
         YRes = ZigInput.Depth.yres;
         XRes = ZigInput.Depth.xres;
         factorX = (int)(XRes / DesiredResolution.x);
         factorY = (int)(YRes / DesiredResolution.y);
         // depthmap data
         rawDepthMap = new short[(int)(XRes * YRes)];
-=======
-        MapOutputMode mom = OpenNIContext.Instance.Depth.MapOutputMode;
-		
-        YRes = mom.YRes;
-        XRes = mom.XRes;
-		
-        factorX = (int)(XRes / DesiredResolution.x);
-        factorY = (int)(YRes / DesiredResolution.y);
-        rawDepthMap = new short[(int)(mom.XRes * mom.YRes)];
->>>>>>> 917e68a172883196c52725423dfd21ebf9245d3c
-
-		rawDepthMap = new short[(int)(640 * 480)];
 
         // the actual mesh we'll use
         
@@ -233,21 +220,13 @@ public class KinectMesh : MonoBehaviour
         }
     }
 
-    int lastFrameId;
     void FixedUpdate()
-    {
-		
-
-		
+    {		
 		if (Time.time > nextUpdateTime) {
 		    nextUpdateTime = Time.time + interval;
 
 			rawDepthMap = ZigInput.Depth.data;
 			UpdateDepthmapMesh(curMesh);
-			
-			//meshIndex = (meshIndex + 1) % totalCopies;
-		    //Mesh newMesh = meshCopies[meshIndex].GetComponent<MeshFilter>().mesh;
-	    	//UpdateDepthmapMesh(newMesh);
 		}
 	}
 }
