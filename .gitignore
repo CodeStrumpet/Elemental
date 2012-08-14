@@ -5,7 +5,6 @@ Library/metadata
 Assembly-*
 *.sln
 *~
-
 Assets/Zigfu/*
 Assets/Zigfu/Scripts.meta
 Library/*
